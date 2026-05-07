@@ -10,7 +10,7 @@ export const TOOLS: Record<string, Tool> = {
   cursor: {
     id: "cursor",
     name: "Cursor",
-    icon: "⚡",
+    icon: "CR",
     category: "ide-assistant",
     overlaps: ["github-copilot", "windsurf"],
     plans: [
@@ -74,7 +74,7 @@ export const TOOLS: Record<string, Tool> = {
   "github-copilot": {
     id: "github-copilot",
     name: "GitHub Copilot",
-    icon: "🤖",
+    icon: "GH",
     category: "ide-assistant",
     overlaps: ["cursor", "windsurf"],
     plans: [
@@ -129,7 +129,7 @@ export const TOOLS: Record<string, Tool> = {
   claude: {
     id: "claude",
     name: "Claude",
-    icon: "🧠",
+    icon: "CL",
     category: "chat-assistant",
     overlaps: ["chatgpt"],
     plans: [
@@ -193,7 +193,7 @@ export const TOOLS: Record<string, Tool> = {
   "anthropic-api": {
     id: "anthropic-api",
     name: "Anthropic API",
-    icon: "🔌",
+    icon: "AA",
     category: "api-direct",
     overlaps: ["openai-api"],
     plans: [
@@ -216,7 +216,7 @@ export const TOOLS: Record<string, Tool> = {
   chatgpt: {
     id: "chatgpt",
     name: "ChatGPT",
-    icon: "💬",
+    icon: "GP",
     category: "chat-assistant",
     overlaps: ["claude"],
     plans: [
@@ -280,7 +280,7 @@ export const TOOLS: Record<string, Tool> = {
   "openai-api": {
     id: "openai-api",
     name: "OpenAI API",
-    icon: "🔑",
+    icon: "OA",
     category: "api-direct",
     overlaps: ["anthropic-api"],
     plans: [
@@ -304,7 +304,7 @@ export const TOOLS: Record<string, Tool> = {
   gemini: {
     id: "gemini",
     name: "Gemini",
-    icon: "✨",
+    icon: "GM",
     category: "api-direct",
     overlaps: [],
     plans: [
@@ -337,7 +337,7 @@ export const TOOLS: Record<string, Tool> = {
   windsurf: {
     id: "windsurf",
     name: "Windsurf",
-    icon: "🏄",
+    icon: "WS",
     category: "ide-assistant",
     overlaps: ["cursor", "github-copilot"],
     plans: [

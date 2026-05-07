@@ -42,7 +42,7 @@ export default function Home() {
       >
         <div className="glass-card-elevated p-8 sm:p-12 glow-border">
           <div className="text-center py-12">
-            <div className="text-5xl mb-4">🚀</div>
+            <div className="text-5xl mb-4"></div>
             <h2 className="text-xl font-display font-semibold text-white mb-2">
               Audit Form
             </h2>
