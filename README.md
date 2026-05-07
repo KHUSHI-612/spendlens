@@ -1,6 +1,6 @@
 # SpendLens — AI Tool Spending Audit
 
-SpendLens is a free web app that audits AI tool spending for startup engineering teams. It analyzes your stack (Cursor, Copilot, Claude, ChatGPT, etc.), detects plan mismatches and tool overlaps, and surfaces exact dollar savings — including discounted API credits via [Credex](https://credex.rocks). Built for engineering managers and founders who are spending $500–$5,000/mo on AI tools and have no idea if they're getting value.
+SpendLens is a free web app that audits AI tool spending for startup engineering teams. It analyzes your stack (Cursor, Copilot, Claude, ChatGPT, etc.), detects plan mismatches and tool overlaps, and surfaces exact dollar savings . Built for engineering managers and founders who are spending $500–$5,000/mo on AI tools and have no idea if they're getting value.
 
 > **🔗 Live:** [https://spendlens.vercel.app](https://spendlens.vercel.app)
 
