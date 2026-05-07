@@ -2,7 +2,7 @@
 
 ## Day 1 — 2025-05-07
 
-**Hours worked:** 6
+**Hours worked:** 3
 
 **What I did:**
 - Initialized Next.js 14 project with TypeScript and Tailwind CSS.
