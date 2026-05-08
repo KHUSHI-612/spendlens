@@ -21,13 +21,13 @@ import { v4 as uuidv4 } from "uuid";
 export function runAudit(formData: AuditFormData): AuditResult {
   const recommendations: ToolRecommendation[] = [];
 
-  // Evaluate each tool individually (Rules 1, 2, 4)
+  // Evaluate each tool individually
   for (const entry of formData.tools) {
-    const rec = evaluateTool(entry);
+    const rec = evaluateTool(entry, formData.teamSize);
     recommendations.push(rec);
   }
 
-  // Evaluate overlapping tools (Rule 3)
+  // Evaluate overlapping tools by category
   const overlapRecs = evaluateOverlaps(formData.tools);
   for (const overlapRec of overlapRecs) {
     const idx = recommendations.findIndex(
@@ -36,6 +36,17 @@ export function runAudit(formData: AuditFormData): AuditResult {
     // Only replace if overlap savings are greater than existing recommendation
     if (idx !== -1 && overlapRec.monthlySavings > recommendations[idx].monthlySavings) {
       recommendations[idx] = overlapRec;
+    }
+  }
+
+  // Evaluate same-vendor redundancy
+  const redundancyRecs = evaluateVendorRedundancy(formData.tools);
+  for (const redundancyRec of redundancyRecs) {
+    const idx = recommendations.findIndex(
+      (r) => r.toolId === redundancyRec.toolId
+    );
+    if (idx !== -1 && redundancyRec.monthlySavings > recommendations[idx].monthlySavings) {
+      recommendations[idx] = redundancyRec;
     }
   }
 
@@ -49,7 +60,7 @@ export function runAudit(formData: AuditFormData): AuditResult {
   );
   const totalAnnualSavings = totalMonthlySavings * 12;
 
-  // Rule 5 & 6: Classify savings tier
+  // Classify savings tier
   let savingsTier: SavingsTier;
   if (totalMonthlySavings > 500) {
     savingsTier = "high";
@@ -72,10 +83,10 @@ export function runAudit(formData: AuditFormData): AuditResult {
 }
 
 // ============================================================
-// Per-Tool Evaluation (checks Rules 1, 2, 4)
+// Per-Tool Evaluation
 // ============================================================
 
-function evaluateTool(entry: UserToolEntry): ToolRecommendation {
+function evaluateTool(entry: UserToolEntry, teamSize: number): ToolRecommendation {
   const tool = TOOLS[entry.toolId];
   const plan = getToolPlan(entry.toolId, entry.planId);
   const toolName = tool?.name ?? entry.toolId;
@@ -92,16 +103,20 @@ function evaluateTool(entry: UserToolEntry): ToolRecommendation {
     };
   }
 
-  // Rule 4: API direct usage — recommend Credex credits
+  // API direct usage — recommend Credex credits
   if (plan.isApiDirect && entry.monthlySpend > 0) {
     return evaluateApiDirect(entry, tool.name);
   }
 
-  // Rule 1: Small team on Team/Business plan — recommend downgrade
+  // Seat count vs team size mismatch
+  const seatMismatch = evaluateSeatMismatch(entry, tool.name, teamSize);
+  if (seatMismatch) return seatMismatch;
+
+  // Small team on Team/Business plan — recommend downgrade
   const teamDowngrade = evaluateTeamDowngrade(entry, tool.name);
   if (teamDowngrade) return teamDowngrade;
 
-  // Rule 2: Paying for Pro when Free tier would work
+  // Paying for Pro when Free tier would work
   const freeDowngrade = evaluateFreeDowngrade(entry, tool.name);
   if (freeDowngrade) return freeDowngrade;
 
@@ -118,11 +133,51 @@ function evaluateTool(entry: UserToolEntry): ToolRecommendation {
 }
 
 // ============================================================
-// Rule 1: Small Team on Team/Business Plan
-// If seats < 3 and on a team/business tier, recommend
-// switching to individual plans to save money.
+// Seat Mismatch
+// If user pays for more seats than teamSize, recommend dropping seats.
 // ============================================================
 
+/**
+ * Evaluates whether a user is paying for more seats than their team size.
+ * Suggests removing excess seats to save money.
+ */
+function evaluateSeatMismatch(
+  entry: UserToolEntry,
+  toolName: string,
+  teamSize: number
+): ToolRecommendation | null {
+  if (entry.seats > teamSize) {
+    const currentPlan = getToolPlan(entry.toolId, entry.planId);
+    if (!currentPlan) return null;
+    
+    const excessSeats = entry.seats - teamSize;
+    const savings = excessSeats * currentPlan.pricePerUser;
+    
+    if (savings > 0) {
+      return {
+        toolId: entry.toolId,
+        toolName,
+        currentSpend: entry.monthlySpend,
+        recommendedAction: "downgrade",
+        reasoning: `You're paying for ${entry.seats} ${toolName} ${currentPlan.name} seats ($${currentPlan.pricePerUser}/mo) but only have ${teamSize} team members. Remove ${excessSeats} seat${excessSeats === 1 ? "" : "s"} to save $${savings}/mo.`,
+        monthlySavings: savings,
+        credexRelevant: false,
+      };
+    }
+  }
+  return null;
+}
+
+// ============================================================
+// Team Plan Downgrade
+// Compare current team plan cost with best individual alternative.
+// If savings > $10/mo, recommend the downgrade.
+// ============================================================
+
+/**
+ * Calculates actual total cost of current plan vs total cost of best individual plan alternative.
+ * Recommends downgrading if the savings exceed $10/mo.
+ */
 function evaluateTeamDowngrade(
   entry: UserToolEntry,
   toolName: string
@@ -131,9 +186,6 @@ function evaluateTeamDowngrade(
   const currentPlan = getToolPlan(entry.toolId, entry.planId);
 
   if (!tool || !currentPlan) return null;
-
-  // Only applies to per-user plans with fewer than 3 seats
-  if (!currentPlan.isPerUser || entry.seats >= 3) return null;
 
   // Check if this is actually a team/business tier
   const planNameLower = currentPlan.name.toLowerCase();
@@ -169,26 +221,32 @@ function evaluateTeamDowngrade(
     : bestAlt.pricePerUser;
   const savings = currentTotal - altTotal;
 
-  if (savings <= 0) return null;
+  if (savings > 10) {
+    return {
+      toolId: entry.toolId,
+      toolName,
+      currentSpend: entry.monthlySpend,
+      recommendedAction: "downgrade",
+      recommendedPlan: bestAlt.name,
+      reasoning: `You have ${entry.seats} seat${entry.seats === 1 ? "" : "s"} on the ${currentPlan.name} plan ($${currentPlan.pricePerUser}/user/mo). The ${bestAlt.name} plan ($${bestAlt.pricePerUser}/user/mo) gives you the same core features for $${savings}/mo less.`,
+      monthlySavings: savings,
+      credexRelevant: false,
+    };
+  }
 
-  return {
-    toolId: entry.toolId,
-    toolName,
-    currentSpend: entry.monthlySpend,
-    recommendedAction: "downgrade",
-    recommendedPlan: bestAlt.name,
-    reasoning: `You have ${entry.seats} seat${entry.seats === 1 ? "" : "s"} on the ${currentPlan.name} plan ($${currentPlan.pricePerUser}/user/mo). With fewer than 3 users, the ${bestAlt.name} plan ($${bestAlt.pricePerUser}/user/mo) gives you the same core features for $${savings}/mo less.`,
-    monthlySavings: savings,
-    credexRelevant: false,
-  };
+  return null;
 }
 
 // ============================================================
-// Rule 2: Paying for Pro When Free Tier Works
-// If use case is general/documentation (light use), and there's
-// a free plan available, recommend downgrading.
+// Paying for Pro When Free Tier Works
+// If use case is general/documentation, spend is below $30/mo, 
+// and there's a free plan available, recommend downgrading.
 // ============================================================
 
+/**
+ * Flags users on paid plans with light use cases and spend < $30/mo,
+ * suggesting they switch to the free tier if it adequately covers their needs.
+ */
 function evaluateFreeDowngrade(
   entry: UserToolEntry,
   toolName: string
@@ -198,6 +256,9 @@ function evaluateFreeDowngrade(
 
   if (!tool || !currentPlan) return null;
   if (currentPlan.pricePerUser === 0) return null;
+  
+  // Don't recommend free for users spending $30+/mo - they need higher limits
+  if (entry.monthlySpend >= 30) return null;
 
   // Only flag for light use cases
   const lightUseCases = ["general", "documentation"];
@@ -225,11 +286,15 @@ function evaluateFreeDowngrade(
 }
 
 // ============================================================
-// Rule 3: Overlapping Tools
-// If two tools share overlapping features AND the user is using
-// them for the same use case, recommend dropping the pricier one.
+// Overlapping Tools
+// Checks for tools in the same category regardless of use case.
+// Recommends dropping the pricier overlapping tool(s).
 // ============================================================
 
+/**
+ * Identifies tools that fall into the same category (e.g., multiple IDE assistants).
+ * Suggests consolidating to the cheapest tool in that category.
+ */
 function evaluateOverlaps(entries: UserToolEntry[]): ToolRecommendation[] {
   const overlapRecs: ToolRecommendation[] = [];
   const processed = new Set<string>();
@@ -240,14 +305,14 @@ function evaluateOverlaps(entries: UserToolEntry[]): ToolRecommendation[] {
     const tool = TOOLS[entry.toolId];
     if (!tool) continue;
 
-    // Find other tools that overlap AND share the same primary use case
-    const overlapping = entries.filter(
-      (other) =>
-        other.toolId !== entry.toolId &&
-        tool.overlaps.includes(other.toolId) &&
-        other.primaryUseCase === entry.primaryUseCase &&
-        !processed.has(other.toolId)
-    );
+    // Find other tools that share the same category or are explicitly listed in overlaps
+    const overlapping = entries.filter((other) => {
+      if (other.toolId === entry.toolId) return false;
+      if (processed.has(other.toolId)) return false;
+      const otherTool = TOOLS[other.toolId];
+      if (!otherTool) return false;
+      return tool.category === otherTool.category || tool.overlaps.includes(other.toolId);
+    });
 
     if (overlapping.length === 0) continue;
 
@@ -272,7 +337,7 @@ function evaluateOverlaps(entries: UserToolEntry[]): ToolRecommendation[] {
         toolName: dropTool.name,
         currentSpend: dropEntry.monthlySpend,
         recommendedAction: "drop",
-        reasoning: `${dropTool.name} and ${keepTool.name} overlap significantly for ${dropEntry.primaryUseCase}. You're already using ${keepTool.name} ($${toKeep.monthlySpend}/mo), so dropping ${dropTool.name} saves $${dropEntry.monthlySpend}/mo.`,
+        reasoning: `${dropTool.name} and ${keepTool.name} overlap significantly in the ${keepTool.category} category. You're already using ${keepTool.name} ($${toKeep.monthlySpend}/mo), so dropping ${dropTool.name} saves $${dropEntry.monthlySpend}/mo.`,
         monthlySavings: dropEntry.monthlySpend,
         credexRelevant: false,
       });
@@ -287,26 +352,82 @@ function evaluateOverlaps(entries: UserToolEntry[]): ToolRecommendation[] {
 }
 
 // ============================================================
-// Rule 4: Retail API Pricing — Suggest Credex Credits
-// If user is paying retail token prices, Credex marketplace
-// offers ~20% savings on bulk credits.
+// Same Vendor Redundancy
+// Detects if a user is paying for both a flat plan and API 
+// usage from the same vendor (e.g., Claude Pro + Anthropic API).
 // ============================================================
 
+/**
+ * Checks if the user is paying for both a subscription plan and direct API
+ * usage from the same vendor, recommending consolidation to avoid double-paying.
+ */
+function evaluateVendorRedundancy(entries: UserToolEntry[]): ToolRecommendation[] {
+  const redundancyRecs: ToolRecommendation[] = [];
+
+  const hasClaudePro = entries.find(e => e.toolId === 'claude' && getToolPlan(e.toolId, e.planId)?.name.toLowerCase().includes('pro'));
+  const hasAnthropicApi = entries.find(e => e.toolId === 'anthropic-api');
+  
+  if (hasClaudePro && hasAnthropicApi) {
+    redundancyRecs.push({
+      toolId: hasClaudePro.toolId,
+      toolName: TOOLS[hasClaudePro.toolId]?.name || 'Claude',
+      currentSpend: hasClaudePro.monthlySpend,
+      recommendedAction: "drop",
+      reasoning: `You're paying for both Claude Pro and Anthropic API direct. Claude Pro already includes API-equivalent usage. Consider consolidating to API-only if your usage is programmatic, or Pro-only if it's conversational.`,
+      monthlySavings: hasClaudePro.monthlySpend,
+      credexRelevant: false,
+    });
+  }
+
+  const hasChatGptPlus = entries.find(e => e.toolId === 'chatgpt' && (getToolPlan(e.toolId, e.planId)?.name.toLowerCase().includes('plus') || getToolPlan(e.toolId, e.planId)?.name.toLowerCase().includes('pro')));
+  const hasOpenAiApi = entries.find(e => e.toolId === 'openai-api');
+
+  if (hasChatGptPlus && hasOpenAiApi) {
+    redundancyRecs.push({
+      toolId: hasChatGptPlus.toolId,
+      toolName: TOOLS[hasChatGptPlus.toolId]?.name || 'ChatGPT',
+      currentSpend: hasChatGptPlus.monthlySpend,
+      recommendedAction: "drop",
+      reasoning: `You're paying for both ChatGPT Plus/Pro and OpenAI API direct. ChatGPT subscriptions include conversational access that might overlap with your API usage. Consider consolidating to API-only if your usage is programmatic, or Plus/Pro-only if it's conversational.`,
+      monthlySavings: hasChatGptPlus.monthlySpend,
+      credexRelevant: false,
+    });
+  }
+
+  return redundancyRecs;
+}
+
+// ============================================================
+// Retail API Pricing — Suggest Credex Credits
+// If user is paying retail token prices, Credex marketplace
+// offers ~15-30% savings on bulk credits.
+// ============================================================
+
+/**
+ * Suggests purchasing API credits through Credex to achieve 15-30% discounts 
+ * when the user is paying retail prices for API usage.
+ */
 function evaluateApiDirect(
   entry: UserToolEntry,
   toolName: string
 ): ToolRecommendation {
   const credexSavingsRate = 0.2;
+  const minSavingsRate = 0.15;
+  const maxSavingsRate = 0.30;
+
   const savings = Math.round(entry.monthlySpend * credexSavingsRate * 100) / 100;
+  const minSavings = Math.round(entry.monthlySpend * minSavingsRate * 100) / 100;
+  const maxSavings = Math.round(entry.monthlySpend * maxSavingsRate * 100) / 100;
 
   return {
     toolId: entry.toolId,
     toolName,
     currentSpend: entry.monthlySpend,
     recommendedAction: "use-credex",
-    reasoning: `You're paying retail prices for ${toolName} ($${entry.monthlySpend}/mo). Credex offers discounted AI credits at roughly 20% off retail. That's $${savings}/mo in savings on the same usage.`,
+    reasoning: `Credex sources credits from companies that overforecast usage. Discounts typically range 15–30% off retail. We use a conservative 20% estimate. At your current spend of $${entry.monthlySpend}/mo, that's $${savings}/mo in savings.`,
     monthlySavings: savings,
     credexRelevant: true,
+    credexSavingsRange: { min: minSavings, max: maxSavings },
   };
 }
 
@@ -314,6 +435,10 @@ function evaluateApiDirect(
 // Fallback Summary (template-based, no AI needed)
 // ============================================================
 
+/**
+ * Generates a plain text summary of the audit results, explicitly 
+ * mentioning new rules if they fire.
+ */
 export function generateFallbackSummary(result: AuditResult): string {
   const toolCount = result.recommendations.length;
   const savingsTools = result.recommendations.filter(
@@ -330,6 +455,16 @@ export function generateFallbackSummary(result: AuditResult): string {
       (a, b) => b.monthlySavings - a.monthlySavings
     )[0];
     summary += ` Your biggest opportunity is ${topSaving.toolName}, where you could save $${topSaving.monthlySavings}/mo.`;
+
+    const hasSeatMismatch = savingsTools.some(r => r.reasoning.includes("team members. Remove"));
+    const hasVendorRedundancy = savingsTools.some(r => r.reasoning.includes("consolidating to API-only"));
+    
+    if (hasSeatMismatch) {
+      summary += ` We also noticed you are paying for more seats than you have actual team members.`;
+    }
+    if (hasVendorRedundancy) {
+      summary += ` You are currently paying for both a subscription plan and direct API usage from the same vendor, which is redundant.`;
+    }
   } else {
     summary += ` Your spending looks well-optimized — no significant savings found.`;
   }

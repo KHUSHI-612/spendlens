@@ -95,6 +95,7 @@ export interface ToolRecommendation {
   reasoning: string;
   monthlySavings: number;
   credexRelevant: boolean;
+  credexSavingsRange?: { min: number; max: number };
 }
 
 /** Complete audit result */
