@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import SpendForm from "@/components/SpendForm";
-import { runAudit } from "@/lib/auditEngine";
 import { AuditFormData } from "@/types";
 
 export default function Home() {
@@ -13,16 +12,13 @@ export default function Home() {
   const handleAuditSubmit = async (formData: AuditFormData) => {
     setIsSubmitting(true);
     try {
-      // 1. Call runAudit() with the form data
-      const auditResult = runAudit(formData);
-
-      // 2. POST the result to /api/audit to save it and get back a UUID
+      // POST the form data to /api/audit to run it securely and save it
       const response = await fetch("/api/audit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(auditResult),
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
@@ -30,10 +26,10 @@ export default function Home() {
       }
 
       const data = await response.json();
-      const auditId = data.id || auditResult.id; // Fallback to engine's UUID if API doesn't return one
+      if (!data.id) throw new Error("No ID returned from server");
 
-      // 3. Redirect to /audit/[id]
-      router.push(`/audit/${auditId}`);
+      // Redirect to /audit/[id]
+      router.push(`/audit/${data.id}`);
     } catch (error) {
       console.error("Audit submission failed:", error);
       alert("Failed to run the audit. Please try again.");

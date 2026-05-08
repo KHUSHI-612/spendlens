@@ -136,4 +136,4 @@ MIT
 
 ---
 
-Built for the [Credex](https://credex.rocks) internship assignment.
+Built for [Credex](https://credex.rocks).
