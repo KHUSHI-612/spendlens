@@ -1,4 +1,46 @@
+"use client";
+
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import SpendForm from "@/components/SpendForm";
+import { runAudit } from "@/lib/auditEngine";
+import { AuditFormData } from "@/types";
+
 export default function Home() {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleAuditSubmit = async (formData: AuditFormData) => {
+    setIsSubmitting(true);
+    try {
+      // 1. Call runAudit() with the form data
+      const auditResult = runAudit(formData);
+
+      // 2. POST the result to /api/audit to save it and get back a UUID
+      const response = await fetch("/api/audit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(auditResult),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save audit result");
+      }
+
+      const data = await response.json();
+      const auditId = data.id || auditResult.id; // Fallback to engine's UUID if API doesn't return one
+
+      // 3. Redirect to /audit/[id]
+      router.push(`/audit/${auditId}`);
+    } catch (error) {
+      console.error("Audit submission failed:", error);
+      alert("Failed to run the audit. Please try again.");
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="relative">
       {/* Hero Section */}
@@ -35,22 +77,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Audit Form Placeholder */}
+      {/* Audit Form Section */}
       <section
         id="audit-form"
         className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20"
       >
-        <div className="glass-card-elevated p-8 sm:p-12 glow-border">
-          <div className="text-center py-12">
-            <div className="text-5xl mb-4"></div>
-            <h2 className="text-xl font-display font-semibold text-white mb-2">
-              Audit Form
+        {isSubmitting ? (
+          <div className="bg-gray-900 border border-gray-800 p-8 sm:p-12 rounded-2xl shadow-xl flex flex-col items-center justify-center min-h-[400px]">
+            <div className="w-16 h-16 border-4 border-blue-600/30 border-t-blue-500 rounded-full animate-spin mb-6"></div>
+            <h2 className="text-2xl font-display font-semibold text-white mb-2">
+              Running Audit...
             </h2>
-            <p className="text-white/40 max-w-md mx-auto">
-              Add your AI tools and get instant savings recommendations.
+            <p className="text-gray-400">
+              Analyzing your stack against our pricing database.
             </p>
           </div>
-        </div>
+        ) : (
+          <SpendForm onSubmit={handleAuditSubmit} />
+        )}
       </section>
     </div>
   );
