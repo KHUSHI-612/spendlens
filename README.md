@@ -133,7 +133,3 @@ docs/                           # Assignment documentation
 ## License
 
 MIT
-
----
-
-Built for [Credex](https://credex.rocks).
