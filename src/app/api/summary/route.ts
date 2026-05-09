@@ -2,11 +2,7 @@ import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { AuditResult } from '@/types';
 
-// Initialize OpenAI client configured for Groq
-const groq = new OpenAI({
-  apiKey: process.env.GROQ_API_KEY,
-  baseURL: 'https://api.groq.com/openai/v1',
-});
+
 
 /**
  * Deterministic fallback if the AI fails
@@ -25,6 +21,12 @@ function generateFallbackSummary(result: AuditResult): string {
 }
 
 export async function POST(request: Request) {
+  // Initialize OpenAI client inside the handler to prevent build-time errors
+  const groq = new OpenAI({
+    apiKey: process.env.GROQ_API_KEY || 'dummy-key-for-build',
+    baseURL: 'https://api.groq.com/openai/v1',
+  });
+
   try {
     const result: AuditResult = await request.json();
 

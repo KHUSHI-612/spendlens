@@ -3,10 +3,12 @@ import { supabase } from '@/lib/supabase';
 import { LeadInput } from '@/types';
 import { Resend } from 'resend';
 
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
+
 
 export async function POST(request: Request) {
+  // Initialize Resend inside the handler to prevent build-time errors
+  const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key');
+
   try {
     const body: LeadInput = await request.json();
     const { email, companyName, role, auditId, savingsAmount, website } = body;
