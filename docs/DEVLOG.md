@@ -53,7 +53,7 @@
 
 ## Day 3 — 2026-05-09
 
-**Hours worked:** 2
+**Hours worked:** 4
 
 **What I did:**
 - Built LeadCapture.tsx modal with honeypot spam protection and premium dark-mode styling.
@@ -62,11 +62,19 @@
 - Built /api/summary route using Groq (llama-3.3-70b-versatile) for AI-generated executive summaries with deterministic fallback logic.
 - Implemented dynamic Open Graph metadata and Twitter card tags for shareable audit results.
 - Hardened privacy by stripping sensitive company identifiers from public audit result views.
+- Wrote 8 comprehensive automated tests for the Audit Engine using Jest and ts-jest.
+- Set up a GitHub Actions CI pipeline to automate building and testing on every push.
 
 **What I learned:**
 - Resend's free tier has strict security requirements for non-verified domains, which impacts end-to-end testing with external email addresses.
 - Rate limiting at the API level is essential for protecting database integrity and preventing notification spam.
 - Standardizing on an OpenAI-compatible SDK for Groq makes switching AI providers trivial.
+- Next.js pre-renders API routes during build time; initializing third-party clients (OpenAI, Resend) at the top level without environment variables will crash the build.
+
+**Blockers / what I'm stuck on:**
+- **Build Crash**: The GitHub CI failed because the OpenAI and Resend clients were initialized globally, looking for API keys that were missing during the build step. Resolved by moving client initialization inside the POST handler functions.
+- **GitHub Secrets**: Automated tests failed in CI due to missing Supabase credentials. Resolved by adding secrets to the GitHub repository and mapping them in the workflow YAML.
+- **Resend Restriction**: Discovered that `onboarding@resend.dev` only delivers to the account owner's email. Documented this as a "Known Limitation" for the demo rather than a bug.
 
 **Known Limitation — Resend Email**
 Resend free tier only sends to the account owner's email until a custom domain is verified. For this demo, email delivery is functional but scoped to verified addresses. Production fix: verify a custom domain in Resend dashboard. The email template, API route, and lead capture logic are all production-ready.
