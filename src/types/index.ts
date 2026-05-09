@@ -135,11 +135,13 @@ export interface LeadRow {
   audit_id: string;
   email: string;
   company_name: string | null;
+  role: string | null;
 }
 
 /** Lead capture form input */
 export interface LeadInput {
   email: string;
   companyName?: string;
+  role?: string;
   auditId: string;
 }

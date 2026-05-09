@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuditResult, RecommendedAction } from '@/types';
+import LeadCapture from './LeadCapture';
 
 interface AuditResultsProps {
   result: AuditResult;
@@ -53,6 +54,15 @@ const getActionColor = (action: RecommendedAction) => {
 
 export default function AuditResults({ result }: AuditResultsProps) {
   const [copied, setCopied] = useState(false);
+  const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
+
+  // Automatically show modal after 5 seconds if not already shown/interacted with
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLeadModalOpen(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleShare = () => {
     if (typeof window !== 'undefined') {
@@ -76,7 +86,10 @@ export default function AuditResults({ result }: AuditResultsProps) {
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
             {copied ? 'Link Copied!' : 'Share Results'}
           </button>
-          <button className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-xl transition-colors flex items-center gap-2 shadow-lg shadow-blue-500/20">
+          <button 
+            onClick={() => setIsLeadModalOpen(true)}
+            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-xl transition-colors flex items-center gap-2 shadow-lg shadow-blue-500/20"
+          >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
             Get Full Report via Email
           </button>
@@ -124,7 +137,10 @@ export default function AuditResults({ result }: AuditResultsProps) {
             <p className="text-emerald-100/70 mb-6 text-base leading-relaxed max-w-2xl mx-auto">
               Because your savings potential exceeds $500/month, you qualify for custom enterprise negotiation via Credex. We can handle the contract negotiations on your behalf and guarantee these savings.
             </p>
-            <button className="bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-bold px-8 py-3.5 rounded-xl w-full sm:w-auto transition-all shadow-lg shadow-emerald-500/20 active:scale-95 text-lg">
+            <button 
+              onClick={() => setIsLeadModalOpen(true)}
+              className="bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-bold px-8 py-3.5 rounded-xl w-full sm:w-auto transition-all shadow-lg shadow-emerald-500/20 active:scale-95 text-lg"
+            >
               Claim Guaranteed Savings
             </button>
           </div>
@@ -186,7 +202,13 @@ export default function AuditResults({ result }: AuditResultsProps) {
             </div>
           ))}
         </div>
-      </div>
     </div>
-  );
+
+    <LeadCapture 
+      isOpen={isLeadModalOpen} 
+      onClose={() => setIsLeadModalOpen(false)} 
+      auditId={result.id}
+    />
+  </div>
+);
 }
