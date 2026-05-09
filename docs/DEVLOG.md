@@ -48,9 +48,25 @@
 - Vercel deployment initially failed because the build process pre-renders server components and API routes at compile time. Since the Supabase environment variables were not yet configured in the Vercel dashboard, the createClient() call threw "supabaseUrl is required" during the build step. Resolved by adding all environment variables to Vercel project settings and redeploying.
 
 **Plan for tomorrow:**
-- Build LeadCapture.tsx modal + /api/lead route.
-- Add Resend email confirmation for captured leads.
-- Build /api/summary route with Groq for AI-generated executive summaries.
-- Add Open Graph meta tags to /audit/[id] for rich link previews.
 - Write 5 automated tests for the audit engine.
 - Set up GitHub Actions CI pipeline.
+
+## Day 3 — 2026-05-09
+
+**Hours worked:** 2
+
+**What I did:**
+- Built LeadCapture.tsx modal with honeypot spam protection and premium dark-mode styling.
+- Implemented /api/lead route with rate limiting (1 submission per hour per email) and Supabase integration.
+- Integrated Resend for automated email reports and lead notifications.
+- Built /api/summary route using Groq (llama-3.3-70b-versatile) for AI-generated executive summaries with deterministic fallback logic.
+- Implemented dynamic Open Graph metadata and Twitter card tags for shareable audit results.
+- Hardened privacy by stripping sensitive company identifiers from public audit result views.
+
+**What I learned:**
+- Resend's free tier has strict security requirements for non-verified domains, which impacts end-to-end testing with external email addresses.
+- Rate limiting at the API level is essential for protecting database integrity and preventing notification spam.
+- Standardizing on an OpenAI-compatible SDK for Groq makes switching AI providers trivial.
+
+**Known Limitation — Resend Email**
+Resend free tier only sends to the account owner's email until a custom domain is verified. For this demo, email delivery is functional but scoped to verified addresses. Production fix: verify a custom domain in Resend dashboard. The email template, API route, and lead capture logic are all production-ready.
