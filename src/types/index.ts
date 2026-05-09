@@ -134,8 +134,9 @@ export interface LeadRow {
   created_at: string;
   audit_id: string;
   email: string;
-  company_name: string | null;
+  company: string | null;
   role: string | null;
+  savings_amount: number | null;
 }
 
 /** Lead capture form input */
@@ -144,4 +145,6 @@ export interface LeadInput {
   companyName?: string;
   role?: string;
   auditId: string;
+  savingsAmount?: number;
+  website?: string; // Honeypot
 }

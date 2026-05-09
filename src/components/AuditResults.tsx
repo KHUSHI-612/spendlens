@@ -208,6 +208,7 @@ export default function AuditResults({ result }: AuditResultsProps) {
       isOpen={isLeadModalOpen} 
       onClose={() => setIsLeadModalOpen(false)} 
       auditId={result.id}
+      savingsAmount={result.totalMonthlySavings}
     />
   </div>
 );

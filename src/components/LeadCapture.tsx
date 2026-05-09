@@ -7,9 +7,10 @@ interface LeadCaptureProps {
   isOpen: boolean;
   onClose: () => void;
   auditId: string;
+  savingsAmount: number;
 }
 
-export default function LeadCapture({ isOpen, onClose, auditId }: LeadCaptureProps) {
+export default function LeadCapture({ isOpen, onClose, auditId, savingsAmount }: LeadCaptureProps) {
   const [email, setEmail] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [role, setRole] = useState('');
@@ -39,6 +40,8 @@ export default function LeadCapture({ isOpen, onClose, auditId }: LeadCapturePro
         companyName: companyName || undefined,
         role: role || undefined,
         auditId,
+        savingsAmount,
+        website, // Pass honeypot for server-side check
       };
 
       const response = await fetch('/api/lead', {
