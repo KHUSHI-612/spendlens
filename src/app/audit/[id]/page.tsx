@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import AuditResults from '@/components/AuditResults';
-import { AuditResult } from '@/types';
+import { AuditResult, ToolRecommendation } from '@/types';
 
 // Opt out of static rendering for dynamic ID fetching
 export const dynamic = 'force-dynamic';
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const savings = Number(data.total_monthly_savings);
   const topRecs = data.recommendations
     .slice(0, 2)
-    .map((r: any) => r.toolName)
+    .map((r: ToolRecommendation) => r.toolName)
     .join(' and ');
 
   const title = `I could save $${savings}/month on AI tools — SpendLens`;
