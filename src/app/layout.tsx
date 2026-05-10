@@ -30,22 +30,33 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${outfit.variable} font-sans antialiased noise-bg grid-bg`}
       >
-        <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-navy-900/80 backdrop-blur-xl">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              <a href="/" className="flex items-center gap-2.5" aria-label="SpendLens Home">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-electric-500 to-emerald-500 flex items-center justify-center text-white font-bold text-sm">
-                  S
-                </div>
-                <span className="text-lg font-display font-bold text-white tracking-tight">
-                  Spend<span className="gradient-text-blue">Lens</span>
-                </span>
+        <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-black/80 backdrop-blur-md">
+          <div className="max-w-full mx-auto px-6 h-24 flex items-center relative">
+            {/* Logo Left */}
+            <div className="flex items-center gap-3 ml-4 sm:ml-8">
+              <div className="w-9 h-9 bg-electric-500 rounded-lg flex items-center justify-center font-black text-white italic shadow-[0_0_20px_rgba(59,130,246,0.4)]">S</div>
+              <span className="text-2xl tracking-tighter text-white">
+                <span className="font-black">Spend</span>
+                <span className="font-light opacity-70">Lens</span>
+              </span>
+            </div>
+            
+            {/* Centered Navigation */}
+            <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-12">
+              <a href="#" className="text-base font-semibold text-white hover:text-electric-400 transition-colors">
+                Home
+              </a>
+              <a href="#features" className="text-base font-semibold text-white hover:text-electric-400 transition-colors">
+                Features
+              </a>
+              <a href="#audit-form" className="text-base font-semibold text-white hover:text-electric-400 transition-colors">
+                Audits
               </a>
             </div>
           </div>
         </nav>
 
-        <main className="pt-16 relative z-10 min-h-screen">{children}</main>
+        <main className="pt-24 relative z-0 min-h-screen">{children}</main>
       </body>
     </html>
   );

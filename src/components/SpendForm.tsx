@@ -82,7 +82,7 @@ export default function SpendForm({ onSubmit }: SpendFormProps) {
       const newTools = [...prev.tools];
       const toolEntry = { ...newTools[index], ...updates };
 
-      // Handle cascading updates (e.g., if tool changes, reset plan)
+      // Handle cascading updates
       if (updates.toolId && updates.toolId !== newTools[index].toolId) {
         const selectedTool = tools.find((t) => t.id === updates.toolId);
         if (selectedTool && selectedTool.plans.length > 0) {
@@ -90,7 +90,7 @@ export default function SpendForm({ onSubmit }: SpendFormProps) {
         }
       }
 
-      // Recalculate monthlySpend if it's a standard plan
+      // Recalculate monthlySpend
       const currentPlan = getToolPlan(toolEntry.toolId, toolEntry.planId);
       if (currentPlan) {
         if (!currentPlan.isCustom && !currentPlan.isApiDirect) {
@@ -110,62 +110,61 @@ export default function SpendForm({ onSubmit }: SpendFormProps) {
     onSubmit(formData);
   };
 
-  if (!isLoaded) return null; // Avoid hydration mismatch
+  if (!isLoaded) return null;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8 w-full max-w-4xl mx-auto">
-      {/* General Information */}
-      <div className="bg-gray-900 border border-gray-800 p-6 sm:p-8 rounded-2xl shadow-xl">
-        <h2 className="text-xl font-semibold text-white mb-6">Team Information</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <form onSubmit={handleSubmit} className="w-full px-8 md:px-16 lg:px-24 space-y-16">
+      {/* Team Information - Wide Header Card */}
+      <div className="w-full bg-white/5 border border-white/10 p-10 md:p-12 rounded-[2.5rem] shadow-2xl">
+        <h2 className="text-3xl font-black text-white mb-10 tracking-tight">Team Information</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div>
-            <label htmlFor="company-name" className="block text-sm font-medium text-gray-300 mb-2">Company Name (Optional)</label>
+            <label htmlFor="company-name" className="block text-sm font-bold text-gray-300 mb-4 uppercase tracking-[0.3em]">Company Name (Optional)</label>
             <input
               id="company-name"
               type="text"
               value={formData.companyName || ""}
               onChange={(e) => updateCompanyName(e.target.value)}
-              className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+              className="w-full h-16 bg-gray-950 border border-gray-700 rounded-2xl px-6 text-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-700"
               placeholder="Acme Corp"
-              aria-label="Enter your company name"
             />
           </div>
           <div>
-            <label htmlFor="team-size" className="block text-sm font-medium text-gray-300 mb-2">Total Team Size</label>
+            <label htmlFor="team-size" className="block text-sm font-bold text-gray-300 mb-4 uppercase tracking-[0.3em]">Total Team Size</label>
             <input
               id="team-size"
               type="number"
               min="1"
               value={formData.teamSize}
               onChange={(e) => updateTeamSize(parseInt(e.target.value) || 1)}
-              className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-              aria-label="Enter total number of team members"
+              className="w-full h-16 bg-gray-950 border border-gray-700 rounded-2xl px-6 text-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
             />
           </div>
         </div>
       </div>
 
-      {/* Tool Stack */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-white">Your AI Tool Stack</h2>
+      {/* Tool Stack - Expandable List */}
+      <div className="space-y-8">
+        <div className="flex items-center justify-between px-4">
+          <h2 className="text-3xl font-black text-white tracking-tight">Your AI Tool Stack</h2>
           <button
             type="button"
             onClick={addTool}
-            className="text-sm bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-md shadow-blue-900/20 active:scale-95"
+            className="text-lg bg-blue-600 hover:bg-blue-500 text-white px-10 py-4 rounded-2xl font-black transition-all shadow-[0_0_30px_rgba(37,99,235,0.2)] active:scale-95 uppercase tracking-wider"
           >
             + Add Tool
           </button>
         </div>
 
         {formData.tools.length === 0 ? (
-          <div className="bg-gray-900 border border-gray-800 border-dashed rounded-2xl p-10 text-center">
-            <p className="text-gray-300 mb-4">No tools added yet. Add the tools you are currently paying for to begin the audit.</p>
+          <div className="w-full bg-white/5 border border-white/10 border-dashed rounded-[2.5rem] min-h-[300px] flex flex-col items-center justify-center p-16 text-center">
+            <p className="text-gray-400 text-2xl font-medium mb-10 max-w-2xl">
+              No tools added yet. Add the tools you are currently paying for to begin your professional audit.
+            </p>
             <button
               type="button"
               onClick={addTool}
-              className="text-sm bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-xl transition-colors font-medium"
-              aria-label="Add your first tool"
+              className="text-lg bg-white/10 hover:bg-white/20 text-white px-12 py-5 rounded-2xl transition-all font-black uppercase tracking-widest"
             >
               Add your first tool
             </button>
@@ -177,26 +176,24 @@ export default function SpendForm({ onSubmit }: SpendFormProps) {
               const selectedPlan = getToolPlan(toolEntry.toolId, toolEntry.planId);
 
               return (
-                <div key={index} className="bg-gray-900 border border-gray-800 p-6 rounded-2xl relative shadow-sm group">
+                <div key={index} className="w-full bg-white/5 border border-white/10 p-8 md:p-10 rounded-3xl relative shadow-xl group transition-all hover:bg-white/[0.08] min-h-[120px]">
                   <button
                     type="button"
                     onClick={() => removeTool(index)}
-                    className="absolute top-4 right-4 text-gray-500 hover:text-red-400 transition-colors px-2 py-1 text-sm font-medium opacity-0 group-hover:opacity-100 focus:opacity-100"
+                    className="absolute -top-3 -right-3 bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/20 w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-lg opacity-0 group-hover:opacity-100"
                     aria-label="Remove tool"
                   >
-                    Remove
+                    ×
                   </button>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-2">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 items-end">
                     {/* Tool Selection */}
-                    <div>
-                      <label htmlFor={`tool-${index}`} className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wider">Tool</label>
+                    <div className="col-span-1">
+                      <label className="block text-xs font-bold text-gray-400 mb-3 uppercase tracking-[0.2em]">Tool</label>
                       <select
-                        id={`tool-${index}`}
                         value={toolEntry.toolId}
                         onChange={(e) => updateTool(index, { toolId: e.target.value as ToolId })}
-                        className="w-full bg-gray-950 border border-gray-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-blue-500 text-sm transition-colors"
-                        aria-label={`Select tool for entry ${index + 1}`}
+                        className="w-full h-12 bg-gray-950 border border-gray-700 rounded-xl px-4 text-base text-white focus:outline-none focus:border-blue-500 transition-all appearance-none cursor-pointer"
                       >
                         {tools.map((t) => (
                           <option key={t.id} value={t.id}>{t.name}</option>
@@ -205,14 +202,12 @@ export default function SpendForm({ onSubmit }: SpendFormProps) {
                     </div>
 
                     {/* Plan Selection */}
-                    <div>
-                      <label htmlFor={`plan-${index}`} className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wider">Plan</label>
+                    <div className="col-span-1">
+                      <label className="block text-xs font-bold text-gray-400 mb-3 uppercase tracking-[0.2em]">Plan</label>
                       <select
-                        id={`plan-${index}`}
                         value={toolEntry.planId}
                         onChange={(e) => updateTool(index, { planId: e.target.value })}
-                        className="w-full bg-gray-950 border border-gray-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-blue-500 text-sm transition-colors"
-                        aria-label={`Select plan for ${selectedTool?.name}`}
+                        className="w-full h-12 bg-gray-950 border border-gray-700 rounded-xl px-4 text-base text-white focus:outline-none focus:border-blue-500 transition-all appearance-none cursor-pointer"
                       >
                         {selectedTool?.plans.map((p) => (
                           <option key={p.id} value={p.id}>{p.name}</option>
@@ -221,14 +216,12 @@ export default function SpendForm({ onSubmit }: SpendFormProps) {
                     </div>
 
                     {/* Primary Use Case */}
-                    <div>
-                      <label htmlFor={`usecase-${index}`} className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wider">Primary Use Case</label>
+                    <div className="col-span-1">
+                      <label className="block text-xs font-bold text-gray-400 mb-3 uppercase tracking-[0.2em]">Use Case</label>
                       <select
-                        id={`usecase-${index}`}
                         value={toolEntry.primaryUseCase}
                         onChange={(e) => updateTool(index, { primaryUseCase: e.target.value as UseCase })}
-                        className="w-full bg-gray-950 border border-gray-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-blue-500 text-sm transition-colors"
-                        aria-label={`Select primary use case for ${selectedTool?.name}`}
+                        className="w-full h-12 bg-gray-950 border border-gray-700 rounded-xl px-4 text-base text-white focus:outline-none focus:border-blue-500 transition-all appearance-none cursor-pointer"
                       >
                         {Object.entries(USE_CASE_LABELS).map(([val, label]) => (
                           <option key={val} value={val}>{label}</option>
@@ -236,39 +229,33 @@ export default function SpendForm({ onSubmit }: SpendFormProps) {
                       </select>
                     </div>
 
-                    {/* Seats & Spend */}
-                    <div className="flex gap-3">
-                      {selectedPlan?.isPerUser && (
-                        <div className="flex-1">
-                          <label htmlFor={`seats-${index}`} className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wider">Seats</label>
-                          <input
-                            id={`seats-${index}`}
-                            type="number"
-                            min="1"
-                            value={toolEntry.seats}
-                            onChange={(e) => updateTool(index, { seats: parseInt(e.target.value) || 1 })}
-                            className="w-full bg-gray-950 border border-gray-800 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-blue-500 text-sm transition-colors"
-                            aria-label={`Enter number of seats for ${selectedTool?.name}`}
-                          />
-                        </div>
-                      )}
-                      
-                      <div className="flex-1">
-                        <label htmlFor={`spend-${index}`} className="block text-xs font-medium text-gray-400 mb-1.5 uppercase tracking-wider">Spend/mo</label>
-                        <div className="relative">
-                          <span className="absolute left-3 top-2.5 text-gray-400 text-sm" aria-hidden="true">$</span>
-                          <input
-                            id={`spend-${index}`}
-                            type="number"
-                            min="0"
-                            step="1"
-                            value={toolEntry.monthlySpend}
-                            onChange={(e) => updateTool(index, { monthlySpend: parseFloat(e.target.value) || 0 })}
-                            disabled={!selectedPlan?.isCustom && !selectedPlan?.isApiDirect}
-                            className={`w-full bg-gray-950 border border-gray-800 rounded-xl pl-7 pr-3 py-2.5 text-white focus:outline-none focus:border-blue-500 text-sm transition-colors ${!selectedPlan?.isCustom && !selectedPlan?.isApiDirect ? 'opacity-50 cursor-not-allowed bg-gray-900' : ''}`}
-                            aria-label={`Enter monthly spend for ${selectedTool?.name}`}
-                          />
-                        </div>
+                    {/* Seats */}
+                    <div className="col-span-1">
+                      <label className="block text-xs font-bold text-gray-400 mb-3 uppercase tracking-[0.2em]">Seats</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={toolEntry.seats}
+                        onChange={(e) => updateTool(index, { seats: parseInt(e.target.value) || 1 })}
+                        disabled={!selectedPlan?.isPerUser}
+                        className={`w-full h-12 bg-gray-950 border border-gray-700 rounded-xl px-4 text-base text-white focus:outline-none focus:border-blue-500 transition-all ${!selectedPlan?.isPerUser ? 'opacity-30 cursor-not-allowed' : ''}`}
+                      />
+                    </div>
+                    
+                    {/* Spend */}
+                    <div className="col-span-1">
+                      <label className="block text-xs font-bold text-gray-400 mb-3 uppercase tracking-[0.2em]">Spend/mo</label>
+                      <div className="relative">
+                        <span className="absolute left-4 top-3 text-gray-600 text-sm">$</span>
+                        <input
+                          type="number"
+                          min="0"
+                          step="1"
+                          value={toolEntry.monthlySpend}
+                          onChange={(e) => updateTool(index, { monthlySpend: parseFloat(e.target.value) || 0 })}
+                          disabled={!selectedPlan?.isCustom && !selectedPlan?.isApiDirect}
+                          className={`w-full h-12 bg-gray-950 border border-gray-700 rounded-xl pl-8 pr-4 text-base text-white focus:outline-none focus:border-blue-500 transition-all ${!selectedPlan?.isCustom && !selectedPlan?.isApiDirect ? 'opacity-30 cursor-not-allowed' : ''}`}
+                        />
                       </div>
                     </div>
                   </div>
@@ -279,11 +266,11 @@ export default function SpendForm({ onSubmit }: SpendFormProps) {
         )}
       </div>
 
-      <div className="flex justify-end pt-6 border-t border-gray-800">
+      <div className="flex justify-center pt-16 border-t border-white/10">
         <button
           type="submit"
           disabled={formData.tools.length === 0}
-          className="bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white px-10 py-3.5 rounded-xl font-bold text-lg transition-all shadow-lg shadow-blue-500/20 active:scale-95"
+          className="bg-blue-600 hover:bg-blue-500 disabled:opacity-30 disabled:cursor-not-allowed text-white w-64 h-14 rounded-2xl font-black text-base transition-all shadow-[0_15px_40px_rgba(37,99,235,0.3)] active:scale-[0.98] uppercase tracking-[0.2em]"
         >
           Run Audit
         </button>
