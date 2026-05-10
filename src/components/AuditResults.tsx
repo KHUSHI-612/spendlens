@@ -82,15 +82,17 @@ export default function AuditResults({ result }: AuditResultsProps) {
           <button 
             onClick={handleShare}
             className="px-5 py-2.5 bg-gray-900 border border-gray-800 hover:bg-gray-800 text-white text-sm font-medium rounded-xl transition-colors flex items-center gap-2"
+            aria-label={copied ? 'Link Copied' : 'Share audit results'}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+            <svg aria-hidden="true" className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
             {copied ? 'Link Copied!' : 'Share Results'}
           </button>
           <button 
             onClick={() => setIsLeadModalOpen(true)}
             className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-xl transition-colors flex items-center gap-2 shadow-lg shadow-blue-500/20"
+            aria-label="Get the full report via email"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+            <svg aria-hidden="true" className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
             Get Full Report via Email
           </button>
         </div>
@@ -101,7 +103,7 @@ export default function AuditResults({ result }: AuditResultsProps) {
         {/* Subtle background glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-emerald-500/10 blur-[100px] pointer-events-none rounded-full" />
         
-        <h2 className="text-gray-400 text-sm font-bold mb-4 uppercase tracking-[0.2em] relative z-10">
+        <h2 className="text-gray-300 text-sm font-bold mb-4 uppercase tracking-[0.2em] relative z-10">
           Potential Impact
         </h2>
         
@@ -111,7 +113,7 @@ export default function AuditResults({ result }: AuditResultsProps) {
               <span className="text-white text-4xl sm:text-6xl font-display font-bold block mb-4">
                 You could save <span className="text-emerald-400">${result.totalMonthlySavings}</span>/month
               </span>
-              <span className="text-gray-400 text-xl block font-medium">
+              <span className="text-gray-300 text-xl block font-medium">
                 That is <span className="text-emerald-400 font-bold">${result.totalAnnualSavings}</span>/year in wasted spend.
               </span>
             </div>
@@ -120,7 +122,7 @@ export default function AuditResults({ result }: AuditResultsProps) {
               <span className="text-white text-4xl sm:text-5xl font-display font-bold block mb-4">
                 Your stack is well-optimized
               </span>
-              <span className="text-gray-400 text-xl block font-medium">
+              <span className="text-gray-300 text-xl block font-medium">
                 We found $0 in wasted spend. Great job managing your licenses!
               </span>
             </div>
@@ -131,15 +133,16 @@ export default function AuditResults({ result }: AuditResultsProps) {
         {result.totalMonthlySavings > 500 && (
           <div className="mt-10 bg-emerald-950/40 border border-emerald-500/30 rounded-2xl p-8 max-w-3xl mx-auto relative z-10 shadow-lg">
             <h3 className="text-emerald-400 font-bold text-xl mb-3 flex items-center justify-center gap-2">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+              <svg aria-hidden="true" className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
               High Volume Spend Detected
             </h3>
-            <p className="text-emerald-100/70 mb-6 text-base leading-relaxed max-w-2xl mx-auto">
+            <p className="text-emerald-100/80 mb-6 text-base leading-relaxed max-w-2xl mx-auto">
               Because your savings potential exceeds $500/month, you qualify for custom enterprise negotiation via Credex. We can handle the contract negotiations on your behalf and guarantee these savings.
             </p>
             <button 
               onClick={() => setIsLeadModalOpen(true)}
               className="bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-bold px-8 py-3.5 rounded-xl w-full sm:w-auto transition-all shadow-lg shadow-emerald-500/20 active:scale-95 text-lg"
+              aria-label="Claim your guaranteed savings through Credex"
             >
               Claim Guaranteed Savings
             </button>
@@ -149,7 +152,7 @@ export default function AuditResults({ result }: AuditResultsProps) {
         {result.totalMonthlySavings < 100 && result.totalMonthlySavings > 0 && (
           <div className="mt-8 bg-gray-800/40 border border-gray-700/50 rounded-2xl p-6 max-w-2xl mx-auto relative z-10">
             <h3 className="text-white font-semibold text-lg mb-1">You&apos;re spending well!</h3>
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-300 text-sm">
               While we found a few minor optimizations, your overall stack is lean. Review the small tweaks below.
             </p>
           </div>
@@ -180,12 +183,12 @@ export default function AuditResults({ result }: AuditResultsProps) {
 
               <div className="flex md:flex-col items-center md:items-end justify-between w-full md:w-auto gap-4 md:gap-3 pt-6 border-t border-gray-800 md:border-t-0 md:pt-0 shrink-0 min-w-[180px]">
                 <div className="text-left md:text-right">
-                  <div className="text-[11px] text-gray-500 font-bold uppercase tracking-widest mb-1">Current Spend</div>
-                  <div className="text-lg font-semibold text-gray-300">${rec.currentSpend}/mo</div>
+                  <div className="text-[11px] text-gray-400 font-bold uppercase tracking-widest mb-1">Current Spend</div>
+                  <div className="text-lg font-semibold text-gray-200">${rec.currentSpend}/mo</div>
                 </div>
                 
                 <div className="text-right">
-                  <div className="text-[11px] text-gray-500 font-bold uppercase tracking-widest mb-1">Potential Savings</div>
+                  <div className="text-[11px] text-gray-400 font-bold uppercase tracking-widest mb-1">Potential Savings</div>
                   {rec.credexSavingsRange ? (
                     <div className="text-2xl font-bold text-emerald-400">
                       ${rec.credexSavingsRange.min} - ${rec.credexSavingsRange.max}

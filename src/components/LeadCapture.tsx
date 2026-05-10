@@ -77,8 +77,9 @@ export default function LeadCapture({ isOpen, onClose, auditId, savingsAmount }:
         <button 
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+          aria-label="Close modal"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg aria-hidden="true" className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
@@ -90,7 +91,7 @@ export default function LeadCapture({ isOpen, onClose, auditId, savingsAmount }:
                 <h2 className="text-2xl font-display font-bold text-white mb-2">
                   Get the Full Report
                 </h2>
-                <p className="text-gray-400">
+                <p className="text-gray-300">
                   Enter your details to receive a detailed breakdown of your savings and a custom optimization plan.
                 </p>
               </div>
@@ -109,7 +110,7 @@ export default function LeadCapture({ isOpen, onClose, auditId, savingsAmount }:
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-1.5 ml-1">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1.5 ml-1">
                     Email Address *
                   </label>
                   <input
@@ -125,7 +126,7 @@ export default function LeadCapture({ isOpen, onClose, auditId, savingsAmount }:
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-gray-400 mb-1.5 ml-1">
+                    <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-1.5 ml-1">
                       Company Name
                     </label>
                     <input
@@ -138,7 +139,7 @@ export default function LeadCapture({ isOpen, onClose, auditId, savingsAmount }:
                     />
                   </div>
                   <div>
-                    <label htmlFor="role" className="block text-sm font-medium text-gray-400 mb-1.5 ml-1">
+                    <label htmlFor="role" className="block text-sm font-medium text-gray-300 mb-1.5 ml-1">
                       Role
                     </label>
                     <input
@@ -164,10 +165,10 @@ export default function LeadCapture({ isOpen, onClose, auditId, savingsAmount }:
                   className="btn-primary w-full mt-6 flex items-center justify-center gap-2"
                 >
                   {loading ? (
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-label="Loading..." />
                   ) : (
                     <>
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg aria-hidden="true" className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                       Send My Report
@@ -179,14 +180,14 @@ export default function LeadCapture({ isOpen, onClose, auditId, savingsAmount }:
           ) : (
             <div className="text-center py-8">
               <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/30">
-                <svg className="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg aria-hidden="true" className="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
               <h2 className="text-2xl font-display font-bold text-white mb-3">
                 Report Sent
               </h2>
-              <p className="text-gray-400 mb-8 max-w-xs mx-auto">
+              <p className="text-gray-300 mb-8 max-w-xs mx-auto">
                 Check your inbox. We have sent the detailed audit report and next steps to {email}.
               </p>
               <button

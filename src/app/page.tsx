@@ -59,7 +59,7 @@ export default function Home() {
               <span className="gradient-text">for AI Tools</span>
             </h1>
 
-            <p className="text-lg sm:text-xl text-white/50 max-w-2xl mx-auto mb-10 animate-fade-in-up leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-10 animate-fade-in-up leading-relaxed">
               Audit your team&apos;s AI spending in 60 seconds. Get personalized
               recommendations and discover how much you can save.
             </p>
@@ -80,11 +80,11 @@ export default function Home() {
       >
         {isSubmitting ? (
           <div className="bg-gray-900 border border-gray-800 p-8 sm:p-12 rounded-2xl shadow-xl flex flex-col items-center justify-center min-h-[400px]">
-            <div className="w-16 h-16 border-4 border-blue-600/30 border-t-blue-500 rounded-full animate-spin mb-6"></div>
+            <div className="w-16 h-16 border-4 border-blue-600/30 border-t-blue-500 rounded-full animate-spin mb-6" aria-label="Loading..." />
             <h2 className="text-2xl font-display font-semibold text-white mb-2">
               Running Audit...
             </h2>
-            <p className="text-gray-400">
+            <p className="text-gray-300">
               Analyzing your stack against our pricing database.
             </p>
           </div>
