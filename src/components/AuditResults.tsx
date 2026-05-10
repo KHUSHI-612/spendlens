@@ -75,7 +75,7 @@ export default function AuditResults({ result }: AuditResultsProps) {
           const res = await fetch('/api/summary', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ auditId: result.id }),
+            body: JSON.stringify(result),
           });
           if (res.ok) {
             const data = await res.json();
@@ -91,7 +91,7 @@ export default function AuditResults({ result }: AuditResultsProps) {
     }
 
     return () => clearTimeout(timer);
-  }, [result.id, result.aiSummary]);
+  }, [result, result.id, result.aiSummary]);
 
   const handleShare = () => {
     if (typeof window !== 'undefined') {

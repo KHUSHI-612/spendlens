@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import SpendForm from "@/components/SpendForm";
 import { AuditFormData } from "@/types";
 
@@ -149,7 +148,7 @@ export default function Home() {
               Every dollar, zero waste.
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              We audit your entire AI infrastructure to find exactly where you're overpaying.
+              We audit your entire AI infrastructure to find exactly where you&apos;re overpaying.
             </p>
           </div>
 
