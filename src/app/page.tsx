@@ -1,47 +1,12 @@
-"use client";
-
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
 import SpendForm from "@/components/SpendForm";
-import { AuditFormData } from "@/types";
 
 export default function Home() {
-  const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleAuditSubmit = async (formData: AuditFormData) => {
-    setIsSubmitting(true);
-    try {
-      // POST the form data to /api/audit to run it securely and save it
-      const response = await fetch("/api/audit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to save audit result");
-      }
-
-      const data = await response.json();
-      if (!data.id) throw new Error("No ID returned from server");
-
-      // Redirect to /audit/[id]
-      router.push(`/audit/${data.id}`);
-    } catch (error) {
-      console.error("Audit submission failed:", error);
-      alert("Failed to run the audit. Please try again.");
-      setIsSubmitting(false);
-    }
-  };
-
   return (
     <div className="relative bg-black min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex flex-col items-center justify-center text-center px-4 py-16 pb-12 bg-black overflow-hidden z-0">
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section className="relative min-h-[60vh] md:min-h-[70vh] flex flex-col items-center justify-center text-center px-4 py-12 md:py-16 bg-black overflow-hidden z-0">
+        <div className="max-w-7xl mx-auto relative z-10 w-full">
           {/* Top Badge */}
           <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-md border border-electric-500/30 bg-electric-500/10 mb-6 animate-fade-in">
             <svg className="w-4 h-4 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -52,37 +17,37 @@ export default function Home() {
             </span>
           </div>
 
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[1.1] mb-4 animate-fade-in-up">
-            Cut through <span className="text-electric-500">AI hype.</span><br />
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[1.1] mb-4 animate-fade-in-up">
+            Cut through <span className="text-electric-500">AI hype.</span><br className="hidden sm:block" />
             Find what actually works.
           </h1>
           
-          <p className="text-xl md:text-3xl text-gray-300 max-w-2xl mx-auto mb-8 animate-fade-in-up leading-relaxed font-bold tracking-tight">
-            Free audit of your entire AI stack.<br />
+          <p className="text-lg sm:text-xl md:text-3xl text-gray-300 max-w-2xl mx-auto mb-8 animate-fade-in-up leading-relaxed font-bold tracking-tight px-4 sm:px-0">
+            Free audit of your entire AI stack.<br className="hidden sm:block" />
             No login. No fluff. Just the numbers.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up mt-0">
-            <button
-              onClick={() => document.getElementById('audit-form')?.scrollIntoView({ behavior: 'smooth' })}
-              className="px-10 py-4 bg-electric-500 hover:bg-electric-600 text-white text-lg font-bold rounded-2xl transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transform hover:-translate-y-1"
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up mt-0 px-6">
+            <a
+              href="#audit-form"
+              className="w-full sm:w-auto px-10 py-4 bg-electric-500 hover:bg-electric-600 text-white text-lg font-bold rounded-2xl transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transform hover:-translate-y-1 flex items-center justify-center"
             >
               Start Free Audit →
-            </button>
+            </a>
           </div>
         </div>
       </section>
 
       {/* Logo Ticker Section */}
-      <div className="py-12 overflow-hidden relative border-y border-white/5 bg-black min-h-[180px]">
-        <div className="max-w-7xl mx-auto px-4 mb-10 text-center">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-[0.3em] animate-fade-in">
+      <div className="py-8 md:py-12 overflow-hidden relative border-y border-white/5 bg-black min-h-[140px] md:min-h-[180px]">
+        <div className="max-w-7xl mx-auto px-4 mb-6 md:mb-10 text-center">
+          <p className="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-[0.3em] animate-fade-in px-4">
             AUDITING TOOLS FROM LEADING AI PROVIDERS
           </p>
         </div>
         
         <div className="relative flex overflow-hidden">
-          <div className="flex whitespace-nowrap animate-ticker-scroll py-4 will-change-transform">
+          <div className="flex whitespace-nowrap animate-ticker-scroll py-2 md:py-4 will-change-transform">
             {[
               { name: "ChatGPT", color: "text-emerald-400 border-emerald-400/30 bg-emerald-400/10" },
               { name: "Claude", color: "text-amber-400 border-amber-400/30 bg-amber-400/10" },
@@ -90,69 +55,41 @@ export default function Home() {
               { name: "Cursor", color: "text-white border-white/20 bg-white/10" },
               { name: "GitHub Copilot", color: "text-purple-400 border-purple-400/30 bg-purple-400/10" },
               { name: "Windsurf", color: "text-cyan-400 border-cyan-400/30 bg-cyan-400/10" },
-              { name: "OpenAI API", color: "text-green-400 border-green-400/30 bg-green-400/10" },
-              { name: "Anthropic API", color: "text-orange-400 border-orange-400/30 bg-orange-400/10" },
-              // Repeat 2
-              { name: "ChatGPT", color: "text-emerald-400 border-emerald-400/30 bg-emerald-400/10" },
-              { name: "Claude", color: "text-amber-400 border-amber-400/30 bg-amber-400/10" },
-              { name: "Gemini", color: "text-blue-400 border-blue-400/30 bg-blue-400/10" },
-              { name: "Cursor", color: "text-white border-white/20 bg-white/10" },
-              { name: "GitHub Copilot", color: "text-purple-400 border-purple-400/30 bg-purple-400/10" },
-              { name: "Windsurf", color: "text-cyan-400 border-cyan-400/30 bg-cyan-400/10" },
-              { name: "OpenAI API", color: "text-green-400 border-green-400/30 bg-green-400/10" },
-              { name: "Anthropic API", color: "text-orange-400 border-orange-400/30 bg-orange-400/10" },
-              // Repeat 3
-              { name: "ChatGPT", color: "text-emerald-400 border-emerald-400/30 bg-emerald-400/10" },
-              { name: "Claude", color: "text-amber-400 border-amber-400/30 bg-amber-400/10" },
-              { name: "Gemini", color: "text-blue-400 border-blue-400/30 bg-blue-400/10" },
-              { name: "Cursor", color: "text-white border-white/20 bg-white/10" },
-              { name: "GitHub Copilot", color: "text-purple-400 border-purple-400/30 bg-purple-400/10" },
-              { name: "Windsurf", color: "text-cyan-400 border-cyan-400/30 bg-cyan-400/10" },
-              { name: "OpenAI API", color: "text-green-400 border-green-400/30 bg-green-400/10" },
-              { name: "Anthropic API", color: "text-orange-400 border-orange-400/30 bg-orange-400/10" },
-              // Repeat 4
-              { name: "ChatGPT", color: "text-emerald-400 border-emerald-400/30 bg-emerald-400/10" },
-              { name: "Claude", color: "text-amber-400 border-amber-400/30 bg-amber-400/10" },
-              { name: "Gemini", color: "text-blue-400 border-blue-400/30 bg-blue-400/10" },
-              { name: "Cursor", color: "text-white border-white/20 bg-white/10" },
-              { name: "GitHub Copilot", color: "text-purple-400 border-purple-400/30 bg-purple-400/10" },
-              { name: "Windsurf", color: "text-cyan-400 border-cyan-400/30 bg-cyan-400/10" },
-              { name: "OpenAI API", color: "text-green-400 border-green-400/30 bg-green-400/10" },
+              { name: "OpenAI API", color: "text-green-400 border-green-400/30 bg-emerald-400/10" },
               { name: "Anthropic API", color: "text-orange-400 border-orange-400/30 bg-orange-400/10" }
-            ].map((tool, i) => (
-              <div key={i} className="mx-6">
-                <div className={`rounded-full border px-8 py-3 ${tool.color} font-bold text-base cursor-default transition-transform hover:scale-105 duration-300`}>
+            ].concat([...Array(3)].flatMap(() => [
+              { name: "ChatGPT", color: "text-emerald-400 border-emerald-400/30 bg-emerald-400/10" },
+              { name: "Claude", color: "text-amber-400 border-amber-400/30 bg-amber-400/10" },
+              { name: "Gemini", color: "text-blue-400 border-blue-400/30 bg-blue-400/10" },
+              { name: "Cursor", color: "text-white border-white/20 bg-white/10" },
+              { name: "GitHub Copilot", color: "text-purple-400 border-purple-400/30 bg-purple-400/10" },
+              { name: "Windsurf", color: "text-cyan-400 border-cyan-400/30 bg-cyan-400/10" },
+              { name: "OpenAI API", color: "text-green-400 border-green-400/30 bg-emerald-400/10" },
+              { name: "Anthropic API", color: "text-orange-400 border-orange-400/30 bg-orange-400/10" }
+            ])).map((tool, i) => (
+              <div key={i} className="mx-3 md:mx-6">
+                <div className={`rounded-full border px-4 md:px-8 py-2 md:py-3 ${tool.color} font-bold text-sm md:text-base cursor-default transition-transform hover:scale-105 duration-300`}>
                   {tool.name}
                 </div>
               </div>
             ))}
           </div>
         </div>
-
-        <style jsx global>{`
-          @keyframes ticker-scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          .animate-ticker-scroll {
-            animation: ticker-scroll 40s linear infinite;
-          }
-        `}</style>
       </div>
 
       {/* Features Grid Section */}
-      <section id="features" className="py-20 bg-black">
-        <div className="w-full px-8 md:px-12 lg:px-16">
-          <div className="text-center mb-24">
-            <h2 className="text-5xl md:text-6xl font-black text-white tracking-tight mb-8">
+      <section id="features" className="py-16 md:py-20 bg-black">
+        <div className="w-full px-4 sm:px-8 md:px-12 lg:px-16">
+          <div className="text-center mb-16 md:mb-24">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight mb-6 md:mb-8">
               Every dollar, zero waste.
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
               We audit your entire AI infrastructure to find exactly where you&apos;re overpaying.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full">
             {[
               {
                 title: "Ghost Seats",
@@ -209,12 +146,12 @@ export default function Home() {
                 )
               }
             ].map((feature, i) => (
-              <div key={i} className="min-h-[220px] border border-white/10 border-t-2 border-t-electric-500/40 bg-white/5 rounded-3xl p-8 shadow-lg shadow-black/40 hover:border-white/20 hover:bg-white/[0.08] transition-all duration-300 group">
-                <div className="w-12 h-12 bg-electric-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-electric-500/30 transition-colors">
+              <div key={i} className="min-h-[200px] md:min-h-[220px] border border-white/10 border-t-2 border-t-electric-500/40 bg-white/5 rounded-3xl p-6 md:p-8 shadow-lg shadow-black/40 hover:border-white/20 hover:bg-white/[0.08] transition-all duration-300 group">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-electric-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-electric-500/30 transition-colors">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3 tracking-tight">{feature.title}</h3>
-                <p className="text-gray-300 text-base leading-relaxed">{feature.description}</p>
+                <h3 className="text-lg md:text-xl font-bold text-white mb-3 tracking-tight">{feature.title}</h3>
+                <p className="text-gray-300 text-sm md:text-base leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -222,28 +159,20 @@ export default function Home() {
       </section>
 
       {/* Audit Form Section */}
-      <section id="audit-form" className="py-24 bg-black relative">
+      <section id="audit-form" className="py-16 md:py-24 bg-black relative">
         {/* Divider Line */}
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         
-        <div className="w-full relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl md:text-6xl font-black text-white tracking-tight mb-4">
+        <div className="w-full relative z-10 px-4 sm:px-0">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight mb-4">
               Audit Your Stack.
             </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed px-4">
               Enter your tools below. Get your savings report in 60 seconds.
             </p>
           </div>
-          {isSubmitting ? (
-            <div className="bg-white/5 border border-white/10 p-12 rounded-3xl shadow-xl flex flex-col items-center justify-center min-h-[400px]">
-              <div className="w-16 h-16 border-4 border-electric-500/30 border-t-electric-500 rounded-full animate-spin mb-6" />
-              <h2 className="text-2xl font-black text-white mb-2 italic">Running Audit...</h2>
-              <p className="text-gray-400">Analyzing your stack against our pricing database.</p>
-            </div>
-          ) : (
-            <SpendForm onSubmit={handleAuditSubmit} />
-          )}
+          <SpendForm />
         </div>
       </section>
     </div>

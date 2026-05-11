@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 
 const inter = Inter({
@@ -31,27 +32,27 @@ export default function RootLayout({
         className={`${inter.variable} ${outfit.variable} font-sans antialiased noise-bg grid-bg`}
       >
         <nav className="fixed top-0 w-full z-50 border-b border-white/5 bg-black/80 backdrop-blur-md">
-          <div className="max-w-full mx-auto px-6 h-24 flex items-center relative">
+          <div className="max-w-full mx-auto px-4 sm:px-6 h-20 flex items-center justify-between relative">
             {/* Logo Left */}
-            <div className="flex items-center gap-3 ml-4 sm:ml-8">
-              <div className="w-9 h-9 bg-electric-500 rounded-lg flex items-center justify-center font-black text-white italic shadow-[0_0_20px_rgba(59,130,246,0.4)]">S</div>
-              <span className="text-2xl tracking-tighter text-white">
+            <Link href="/" className="flex items-center gap-2 sm:gap-3 group">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 bg-electric-500 rounded-lg flex items-center justify-center font-black text-white italic shadow-[0_0_20px_rgba(59,130,246,0.4)] group-hover:scale-105 transition-transform">S</div>
+              <span className="text-xl sm:text-2xl tracking-tighter text-white">
                 <span className="font-black">Spend</span>
                 <span className="font-light opacity-70">Lens</span>
               </span>
-            </div>
+            </Link>
             
-            {/* Centered Navigation */}
-            <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-12">
-              <a href="#" className="text-base font-semibold text-white hover:text-electric-400 transition-colors">
+            {/* Navigation Links - Hidden on very small screens, shown as centered on md+ */}
+            <div className="hidden sm:flex items-center gap-6 md:gap-12 md:absolute md:left-1/2 md:-translate-x-1/2">
+              <Link href="/" className="text-sm sm:text-base font-semibold text-white hover:text-electric-400 transition-colors">
                 Home
-              </a>
-              <a href="#features" className="text-base font-semibold text-white hover:text-electric-400 transition-colors">
+              </Link>
+              <Link href="/#features" className="text-sm sm:text-base font-semibold text-white hover:text-electric-400 transition-colors">
                 Features
-              </a>
-              <a href="#audit-form" className="text-base font-semibold text-white hover:text-electric-400 transition-colors">
+              </Link>
+              <Link href="/#audit-form" className="text-sm sm:text-base font-semibold text-white hover:text-electric-400 transition-colors">
                 Audits
-              </a>
+              </Link>
             </div>
           </div>
         </nav>
