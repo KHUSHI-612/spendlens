@@ -424,7 +424,7 @@ function evaluateApiDirect(
     toolName,
     currentSpend: entry.monthlySpend,
     recommendedAction: "use-credex",
-    reasoning: `Credex sources credits from companies that overforecast usage. Discounts typically range 15–30% off retail. We use a conservative 20% estimate. At your current spend of $${entry.monthlySpend}/mo, that's $${savings}/mo in savings.`,
+    reasoning: `Credex sources credits from companies that overforecast usage. Discounts typically range 15-30% off retail. We use a conservative 20% estimate. At your current spend of $${entry.monthlySpend}/mo, that's $${savings}/mo in savings.`,
     monthlySavings: savings,
     credexRelevant: true,
     credexSavingsRange: { min: minSavings, max: maxSavings },

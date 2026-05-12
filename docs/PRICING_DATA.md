@@ -118,6 +118,6 @@ All pricing verified on **2026-05-07**.
 ---
 
 ## Credex Discount Estimates
-- Typical discount: **15–30%** off retail API pricing
+- Typical discount: **15-30%** off retail API pricing
 - Applied to: Anthropic API, OpenAI API, Gemini API
 - SpendLens uses a conservative **20%** estimate in calculations
