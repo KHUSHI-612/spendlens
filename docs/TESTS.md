@@ -1,4 +1,4 @@
-# Tests — SpendLens
+# Tests - SpendLens
 
 ## Automated Test Suite
 

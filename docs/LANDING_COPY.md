@@ -1,8 +1,7 @@
 # Landing Page Copy - SpendLens
 
 ## 1. Hero Headline
-*Option 1 (Current, punchy):* Cut through AI hype. Find what actually works.
-*Option 2 (Direct ROI focus):* Stop overpaying for AI. Audit your true spend.
+Cut through AI hype. Find what actually works.
 
 ## 2. Subheadline
 Get a free, instant audit of your entire AI stack. No login required. No fluff. Just hard numbers and immediate savings.

@@ -1,6 +1,6 @@
-# Development Log — SpendLens
+# Development Log - SpendLens
 
-## Day 1 — 2025-05-07
+## Day 1 - 2026-05-07
 
 **Hours worked:** 3
 
@@ -25,7 +25,7 @@
 - Implement localStorage persistence for the form.
 - Start building the Results UI.
 
-## Day 2 — 2026-05-08
+## Day 2 - 2026-05-08
 
 **Hours worked:** 3.5
 
@@ -51,7 +51,7 @@
 - Write 5 automated tests for the audit engine.
 - Set up GitHub Actions CI pipeline.
 
-## Day 3 — 2026-05-09
+## Day 3 - 2026-05-09
 
 **Hours worked:** 4
 
@@ -76,10 +76,10 @@
 - **GitHub Secrets**: Automated tests failed in CI due to missing Supabase credentials. Resolved by adding secrets to the GitHub repository and mapping them in the workflow YAML.
 - **Resend Restriction**: Discovered that `onboarding@resend.dev` only delivers to the account owner's email. Documented this as a "Known Limitation" for the demo rather than a bug.
 
-**Known Limitation — Resend Email**
+**Known Limitation - Resend Email**
 Resend free tier only sends to the account owner's email until a custom domain is verified. For this demo, email delivery is functional but scoped to verified addresses. Production fix: verify a custom domain in Resend dashboard. The email template, API route, and lead capture logic are all production-ready.
 
-## Day 4 — 2026-05-10
+## Day 4 - 2026-05-10
 
 **Hours worked:** 4
 
@@ -114,7 +114,7 @@ Resend free tier only sends to the account owner's email until a custom domain i
 - Final Lighthouse check after today's UI changes
 - Take screenshots for README.md
 
-## Day 5 — 2026-05-11
+## Day 5 - 2026-05-11
 
 **Hours worked:** 2
 
