@@ -105,12 +105,12 @@ export default function AuditResults({ result }: AuditResultsProps) {
   };
 
   return (
-    <div className="space-y-12 md:space-y-20 w-full animate-fade-in-up pb-24" role="region" aria-label="Audit Results Report">
+    <div className="space-y-4 w-full animate-fade-in-up pb-12" role="region" aria-label="Audit Results Report">
       {/* Top Header Section */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 md:gap-12 border-b border-white/10 pb-10">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-2 border-b border-white/10 pb-2">
         <div className="w-full lg:w-auto">
-          <div className="flex items-center justify-between lg:justify-start gap-6 mb-3">
-            <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter">Audit Report</h1>
+          <div className="flex items-center justify-between lg:justify-start gap-4">
+            <h1 className="text-xl md:text-2xl font-black text-white tracking-tighter">Audit Report</h1>
             <Link 
               href="/" 
               className="lg:hidden text-[11px] font-black text-blue-400 uppercase tracking-widest border border-blue-400/30 px-4 py-2 rounded-xl bg-blue-400/5 active:scale-95 transition-all"
@@ -119,19 +119,19 @@ export default function AuditResults({ result }: AuditResultsProps) {
               ← New
             </Link>
           </div>
-          <p className="text-gray-400 text-sm md:text-lg font-bold uppercase tracking-[0.4em]">Audit ID: {result.id.slice(0, 12)}</p>
+          <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.2em]">ID: {result.id.slice(0, 8)}</p>
         </div>
         <div className="flex flex-wrap items-center gap-6 w-full lg:w-auto">
           <Link 
             href="/" 
-            className="hidden lg:flex px-10 py-5 bg-white/5 border border-white/10 hover:bg-white/10 text-white text-xl font-black rounded-2xl transition-all items-center gap-3 active:scale-95 shadow-xl"
+            className="hidden lg:flex px-4 py-2 bg-white/5 border border-white/10 hover:bg-white/10 text-white text-sm font-black rounded-lg transition-all items-center gap-2 active:scale-95"
             aria-label="Start a new audit"
           >
             ← New Audit
           </Link>
           <button 
             onClick={handleShare}
-            className="flex-1 lg:flex-none px-8 md:px-12 py-5 bg-white/5 border border-white/10 hover:bg-white/10 text-white text-lg md:text-xl font-black rounded-2xl transition-all flex items-center justify-center gap-3 active:scale-95 shadow-xl"
+            className="flex-1 lg:flex-none px-3 py-1 bg-white/5 border border-white/10 hover:bg-white/10 text-white text-xs font-black rounded transition-all flex items-center justify-center gap-2 active:scale-95"
             aria-label="Share audit results link"
           >
             <svg aria-hidden="true" className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,7 +141,7 @@ export default function AuditResults({ result }: AuditResultsProps) {
           </button>
           <button 
             onClick={() => setIsLeadModalOpen(true)}
-            className="flex-1 lg:flex-none px-10 md:px-16 py-5 bg-blue-600 hover:bg-blue-500 text-white text-lg md:text-xl font-black rounded-2xl transition-all flex items-center justify-center gap-3 shadow-[0_0_40px_rgba(37,99,235,0.4)] active:scale-95 uppercase tracking-widest"
+            className="flex-1 lg:flex-none px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-black rounded transition-all flex items-center justify-center gap-2 active:scale-95 uppercase tracking-widest"
             aria-label="View the full expert report"
           >
             <svg aria-hidden="true" className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,25 +153,25 @@ export default function AuditResults({ result }: AuditResultsProps) {
       </div>
  
       {/* Hero Savings View */}
-      <div className="w-full bg-[#0a0a0a] border border-white/10 rounded-[2rem] py-12 md:py-16 px-12 md:px-20 text-center shadow-2xl relative overflow-hidden group">
+      <div className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg py-4 md:py-5 px-4 md:px-6 text-center shadow-2xl relative overflow-hidden group">
         {/* Subtle Grid Background */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '15px 15px' }} />
         
         {/* Glow effect */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-emerald-500/5 blur-[100px] pointer-events-none rounded-full" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[100px] bg-emerald-500/5 blur-[40px] pointer-events-none rounded-full" />
         
         {result.totalMonthlySavings > 0 ? (
           <div className="relative z-10 animate-fade-in">
-            <h2 className="text-gray-400 text-[10px] md:text-xs font-black mb-6 md:mb-8 uppercase tracking-[0.4em] md:tracking-[0.6em]">Total Monthly Savings Found</h2>
+            <h2 className="text-gray-400 text-[10px] font-black mb-1.5 uppercase tracking-[0.3em]">Total Monthly Savings</h2>
             <div className="flex flex-col items-center">
-              <div className="relative inline-block mb-6">
-                <span className="text-white text-7xl sm:text-8xl md:text-9xl font-black tracking-tighter drop-shadow-[0_0_40px_rgba(16,185,129,0.25)] leading-none">
+              <div className="relative inline-block mb-1.5">
+                <span className="text-white text-5xl sm:text-6xl font-black tracking-tighter drop-shadow-[0_0_15px_rgba(16,185,129,0.2)] leading-none">
                   <span className="text-emerald-400">$</span>{result.totalMonthlySavings}
                 </span>
               </div>
-              <div className="bg-emerald-500/10 border border-emerald-500/20 px-8 md:px-10 py-2 md:py-3 rounded-full mb-0 italic">
-                <span className="text-emerald-400 text-sm md:text-lg font-bold tracking-tight">
-                  That&apos;s <span className="underline decoration-2 underline-offset-4">${result.totalAnnualSavings}</span> per year.
+              <div className="bg-emerald-500/10 border border-emerald-500/20 px-6 py-1.5 rounded-full mb-0">
+                <span className="text-emerald-400 text-sm md:text-base font-black tracking-tight">
+                  That&apos;s <span className="underline decoration-2 underline-offset-4">${result.totalAnnualSavings}</span>/year.
                 </span>
               </div>
             </div>
@@ -209,16 +209,16 @@ export default function AuditResults({ result }: AuditResultsProps) {
  
       {/* AI Intelligence Feed */}
       <div className="relative">
-        <div className="relative bg-[#0d1117] rounded-[2rem] p-10 md:p-16 border border-white/5 overflow-hidden shadow-2xl">
-          <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-500/5 blur-[100px] -mr-48 -mt-48 rounded-full" />
+        <div className="relative bg-[#0d1117] rounded-lg p-4 md:p-6 border border-white/5 overflow-hidden shadow-2xl">
+          <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '15px 15px' }} />
+          <div className="absolute top-0 right-0 w-[150px] h-[150px] bg-blue-500/5 blur-[40px] -mr-15 -mt-15 rounded-full" />
           
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-10 md:mb-12 relative z-10">
-            <div className="flex items-center gap-5">
-              <div className="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center border border-blue-500/20">
-                <svg aria-hidden="true" className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4 relative z-10">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded bg-blue-600/20 flex items-center justify-center border border-blue-500/20">
+                <svg aria-hidden="true" className="w-3 h-3 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
               </div>
-              <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight uppercase">Executive Analysis</h2>
+              <h2 className="text-base font-black text-white tracking-tight uppercase">Executive Analysis</h2>
             </div>
             <div className="flex items-center gap-2.5 px-4 py-1.5 bg-gray-900 border border-white/10 rounded-full w-fit shadow-lg">
               <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
@@ -227,14 +227,13 @@ export default function AuditResults({ result }: AuditResultsProps) {
           </div>
           
           {isSummaryLoading ? (
-            <div className="space-y-6 animate-pulse relative z-10" aria-label="Loading analysis...">
-              <div className="h-5 bg-white/5 rounded w-full" />
-              <div className="h-5 bg-white/5 rounded w-11/12" />
-              <div className="h-5 bg-white/5 rounded w-10/12" />
+            <div className="space-y-2.5 animate-pulse relative z-10" aria-label="Loading analysis...">
+              <div className="h-2.5 bg-white/5 rounded w-full" />
+              <div className="h-2.5 bg-white/5 rounded w-11/12" />
             </div>
           ) : (
-            <div className="relative z-10 border-l-2 border-white/10 pl-8 md:pl-12">
-              <p className="text-gray-200 text-lg md:text-2xl leading-relaxed italic font-medium tracking-tight whitespace-pre-line opacity-90">
+            <div className="relative z-10 border-l-2 border-white/10 pl-4 md:pl-6">
+              <p className="text-gray-200 text-sm md:text-base leading-relaxed italic font-bold tracking-tight whitespace-pre-line opacity-95">
                 &quot;{summary || "Our AI is currently cross-referencing your tool stack with vendor pricing APIs to identify optimization gaps and feature overlaps."}&quot;
               </p>
             </div>
@@ -243,10 +242,10 @@ export default function AuditResults({ result }: AuditResultsProps) {
       </div>
  
       {/* Tool Breakdown Grid */}
-      <div className="space-y-10 md:space-y-16">
+      <div className="space-y-4 md:space-y-6">
         <div className="flex items-center justify-between px-2">
-          <h3 className="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase">Tool Breakdown</h3>
-          <span className="text-gray-400 text-xs md:text-lg font-bold uppercase tracking-[0.3em]">{result.recommendations.length} Tools Analyzed</span>
+          <h3 className="text-lg md:text-xl font-black text-white tracking-tighter uppercase">Tool Breakdown</h3>
+          <span className="text-gray-400 text-[9px] font-bold uppercase tracking-[0.2em]">{result.recommendations.length} Analyzed</span>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12" role="list">
@@ -256,36 +255,36 @@ export default function AuditResults({ result }: AuditResultsProps) {
               <div 
                 key={idx} 
                 role="listitem"
-                className={`border-l-8 ${styles.border} ${styles.bg} border-y border-r border-white/5 p-8 md:p-14 rounded-[2.5rem] flex flex-col gap-8 md:gap-10 items-start shadow-2xl group hover:bg-white/[0.08] transition-all duration-500`}
+                className={`border-l-2 ${styles.border} ${styles.bg} border-y border-r border-white/5 p-4 md:p-6 rounded-lg flex flex-col gap-3 md:gap-4 items-start shadow-2xl group hover:bg-white/[0.08] transition-all duration-500`}
               >
                 <div className="w-full">
-                  <div className="flex items-center justify-between gap-4 mb-6 md:mb-8">
-                    <h4 className="text-3xl md:text-5xl font-black text-white tracking-tighter">{rec.toolName}</h4>
-                    <span className={`px-4 py-1.5 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest border ${styles.tag}`}>
+                  <div className="flex items-center justify-between gap-3 mb-1 md:mb-2">
+                    <h4 className="text-lg md:text-xl font-black text-white tracking-tighter">{rec.toolName}</h4>
+                    <span className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border ${styles.tag}`}>
                       {getActionLabel(rec.recommendedAction)}
                     </span>
                   </div>
                   
-                  <p className="text-gray-200 text-lg md:text-2xl leading-relaxed font-bold tracking-tight mb-10 md:mb-12">
+                  <p className="text-gray-200 text-xs md:text-sm leading-relaxed font-bold tracking-tight mb-3 md:mb-4">
                     {rec.reasoning}
                   </p>
                 </div>
  
-                <div className="flex flex-col sm:flex-row gap-10 sm:gap-16 w-full pt-10 border-t border-white/10">
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full pt-3 border-t border-white/10">
                   <div className="text-left">
-                    <div className="text-xs text-gray-400 font-black uppercase tracking-[0.3em] mb-2">Current Spend</div>
-                    <div className="text-3xl md:text-5xl font-black text-white tracking-tighter">${rec.currentSpend}<span className="text-xs font-bold opacity-30 ml-2">/MO</span></div>
+                    <div className="text-[8px] text-gray-400 font-black uppercase tracking-[0.2em] mb-0.5">Current</div>
+                    <div className="text-lg md:text-xl font-black text-white tracking-tighter">${rec.currentSpend}<span className="text-[8px] font-bold opacity-30 ml-1">/MO</span></div>
                   </div>
                   
                   <div className="text-left">
-                    <div className="text-xs text-gray-400 font-black uppercase tracking-[0.3em] mb-2">Potential Savings</div>
+                    <div className="text-[8px] text-gray-400 font-black uppercase tracking-[0.2em] mb-0.5">Savings</div>
                     {rec.credexSavingsRange ? (
-                      <div className="text-3xl md:text-5xl font-black text-emerald-400 tracking-tighter">
-                        ${rec.credexSavingsRange.min}-${rec.credexSavingsRange.max}<span className="text-xs font-bold opacity-50 ml-2">/MO</span>
+                      <div className="text-lg md:text-xl font-black text-emerald-400 tracking-tighter">
+                        ${rec.credexSavingsRange.min}-${rec.credexSavingsRange.max}<span className="text-[8px] font-bold opacity-50 ml-1">/MO</span>
                       </div>
                     ) : (
-                      <div className={`text-3xl md:text-5xl font-black ${rec.monthlySavings > 0 ? 'text-emerald-400' : 'text-gray-500'} tracking-tighter`}>
-                        ${rec.monthlySavings}<span className="text-xs font-bold opacity-50 ml-2">/MO</span>
+                      <div className={`text-lg md:text-xl font-black ${rec.monthlySavings > 0 ? 'text-emerald-400' : 'text-gray-500'} tracking-tighter`}>
+                        ${rec.monthlySavings}<span className="text-[8px] font-bold opacity-50 ml-1">/MO</span>
                       </div>
                     )}
                   </div>

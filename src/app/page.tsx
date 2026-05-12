@@ -22,12 +22,12 @@ export default function Home() {
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[1.1] mb-4">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter leading-[1.1] mb-4">
             Cut through <span className="text-electric-500">AI hype.</span><br className="hidden sm:block" />
             Find what actually works.
           </h1>
           
-          <p className="text-lg sm:text-xl md:text-3xl text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed font-bold tracking-tight px-4 sm:px-0">
+          <p className="text-base sm:text-lg md:text-2xl text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed font-bold tracking-tight px-4 sm:px-0">
             Free audit of your entire AI stack.<br className="hidden sm:block" />
             No login. No fluff. Just the numbers.
           </p>

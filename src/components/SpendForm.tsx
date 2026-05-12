@@ -144,32 +144,32 @@ export default function SpendForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full px-4 sm:px-8 md:px-16 lg:px-24 space-y-8 md:space-y-16" aria-label="AI Tool Audit Form">
+    <form onSubmit={handleSubmit} className="w-full px-4 sm:px-8 md:px-16 lg:px-24 space-y-4 md:space-y-8" aria-label="AI Tool Audit Form">
       {/* Team Information - Wide Header Card */}
-      <div className="w-full bg-white/5 border border-white/10 p-6 md:p-10 lg:p-12 rounded-3xl md:rounded-[2.5rem] shadow-2xl">
-        <h2 className="text-2xl md:text-3xl font-black text-white mb-8 md:mb-10 tracking-tight">Team Information</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+      <div className="w-full bg-white/5 border border-white/10 p-4 md:p-6 rounded-2xl shadow-2xl">
+        <h2 className="text-lg md:text-xl font-black text-white mb-4 md:mb-6 tracking-tight uppercase">Team Information</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <div>
-            <label htmlFor="company-name" className="block text-xs md:text-sm font-bold text-gray-300 mb-3 md:mb-4 uppercase tracking-[0.3em]">Company Name (Optional)</label>
+            <label htmlFor="company-name" className="block text-[10px] font-bold text-gray-300 mb-2 uppercase tracking-[0.2em]">Company Name (Optional)</label>
             <input
               id="company-name"
               type="text"
               value={formData.companyName || ""}
               onChange={(e) => updateCompanyName(e.target.value)}
-              className="w-full h-14 md:h-16 bg-gray-950 border border-gray-700 rounded-xl md:rounded-2xl px-4 md:px-6 text-base md:text-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-500"
+              className="w-full h-10 md:h-12 bg-gray-950 border border-gray-700 rounded-lg px-4 text-sm text-white focus:outline-none focus:border-blue-500 transition-all placeholder:text-gray-500"
               placeholder="Acme Corp"
               aria-required="false"
             />
           </div>
           <div>
-            <label htmlFor="team-size" className="block text-xs md:text-sm font-bold text-gray-300 mb-3 md:mb-4 uppercase tracking-[0.3em]">Total Team Size</label>
+            <label htmlFor="team-size" className="block text-[10px] font-bold text-gray-300 mb-2 uppercase tracking-[0.2em]">Total Team Size</label>
             <input
               id="team-size"
               type="number"
               min="1"
               value={formData.teamSize}
               onChange={(e) => updateTeamSize(parseInt(e.target.value) || 1)}
-              className="w-full h-14 md:h-16 bg-gray-950 border border-gray-700 rounded-xl md:rounded-2xl px-4 md:px-6 text-base md:text-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+              className="w-full h-10 md:h-12 bg-gray-950 border border-gray-700 rounded-lg px-4 text-sm text-white focus:outline-none focus:border-blue-500 transition-all"
               aria-required="true"
             />
           </div>
@@ -177,13 +177,13 @@ export default function SpendForm() {
       </div>
 
       {/* Tool Stack - Expandable List */}
-      <div className="space-y-6 md:space-y-8">
+      <div className="space-y-4 md:space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-2">
-          <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">Your AI Tool Stack</h2>
+          <h2 className="text-lg md:text-xl font-black text-white tracking-tight uppercase">Your AI Tool Stack</h2>
           <button
             type="button"
             onClick={addTool}
-            className="w-full sm:w-auto text-sm md:text-lg bg-blue-600 hover:bg-blue-500 text-white px-6 md:px-10 py-3 md:py-4 rounded-xl md:rounded-2xl font-black transition-all shadow-[0_0_30px_rgba(37,99,235,0.2)] active:scale-95 uppercase tracking-wider"
+            className="w-full sm:w-auto text-xs md:text-sm bg-blue-600 hover:bg-blue-500 text-white px-4 md:px-6 py-2 rounded-lg font-black transition-all active:scale-95 uppercase tracking-wider"
             aria-label="Add another tool to your stack"
           >
             + Add Tool
@@ -205,13 +205,13 @@ export default function SpendForm() {
             </button>
           </div>
         ) : (
-          <div className="space-y-4" role="list">
+          <div className="space-y-3" role="list">
             {formData.tools.map((toolEntry, index) => {
               const selectedTool = tools.find((t) => t.id === toolEntry.toolId);
               const selectedPlan = getToolPlan(toolEntry.toolId, toolEntry.planId);
 
               return (
-                <div key={index} role="listitem" className="w-full bg-white/5 border border-white/10 p-6 md:p-10 rounded-2xl md:rounded-3xl relative shadow-xl group transition-all hover:bg-white/[0.08]">
+                <div key={index} role="listitem" className="w-full bg-white/5 border border-white/10 p-4 md:p-6 rounded-xl relative shadow-xl group transition-all hover:bg-white/[0.08]">
                   <button
                     type="button"
                     onClick={() => removeTool(index)}
@@ -311,11 +311,11 @@ export default function SpendForm() {
         )}
       </div>
 
-      <div className="flex justify-center pt-8 md:pt-16 border-t border-white/10">
+      <div className="flex justify-center pt-4 md:pt-8 border-t border-white/10">
         <button
           type="submit"
           disabled={formData.tools.length === 0}
-          className="bg-blue-600 hover:bg-blue-500 disabled:opacity-30 disabled:cursor-not-allowed text-white w-full sm:w-64 h-14 rounded-xl md:rounded-2xl font-black text-base transition-all shadow-[0_15px_40px_rgba(37,99,235,0.3)] active:scale-[0.98] uppercase tracking-[0.2em]"
+          className="bg-blue-600 hover:bg-blue-500 disabled:opacity-30 disabled:cursor-not-allowed text-white w-full sm:w-56 h-12 rounded-lg font-black text-sm transition-all active:scale-[0.98] uppercase tracking-[0.2em]"
           aria-label="Run audit and calculate savings"
         >
           Run Audit
