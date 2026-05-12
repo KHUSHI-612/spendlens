@@ -53,6 +53,6 @@ However, I absolutely did **NOT** trust it for the core audit engine logic or pr
 ### 5. Self-Ratings
 *   **Discipline: 9/10** - I treated the 72-hour window like a real sprint. I kept a meticulous `DEVLOG.md` and didn't let "feature creep" push me into building a login system we didn't need.
 *   **Code Quality: 8/10** - The core engine is pure, functional, and 100% covered by unit tests. The UI code got a bit messy toward the end of the "polish" phase, but it's all typed and modular.
-*   **Design Sense: 10/10** - I’m genuinely proud of the "Quiet Luxury" aesthetic. Moving from a standard white-background SaaS look to a high-density, monochromatic dark mode made the tool feel like a professional command center.
-*   **Problem Solving: 9/10** - Navigating the production build errors (the `critters` plugin bug) and the API credit hurdle required quick thinking and deep-diving into documentation.
-*   **Entrepreneurial Thinking: 10/10** - The decision to kill the signup wall was purely entrepreneurial. I prioritized "distribution" and "virality" over "user tracking," which is exactly what an MVP needs to survive.
+*   **Design Sense: 8/10** - I'm very proud of the "Quiet Luxury" aesthetic, but I recognize that high-density monochromatic design can sometimes sacrifice accessibility for pure style. While it feels professional, a true 10/10 would have more robust visual cues for novice users.
+*   **Problem Solving: 9/10** - Navigating the production build errors (the critters plugin bug) and the API credit hurdle required quick thinking and deep-diving into documentation.
+*   **Entrepreneurial Thinking: 8/10** - Killing the signup wall was the right call for virality, but a more seasoned entrepreneur might have found a way to bridge the gap - perhaps offering an "opt-in" account for saving history rather than making it all-or-nothing.
