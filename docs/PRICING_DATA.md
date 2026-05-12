@@ -1,11 +1,11 @@
-# Pricing Data — SpendLens
+# Pricing Data - SpendLens
 
-All pricing verified on **2025-05-07**.
+All pricing verified on **2026-05-07**.
 
 ---
 
 ## Cursor
-**Source:** [cursor.com/pricing](https://cursor.com/pricing) — verified 2025-05-07
+**Source:** [cursor.com/pricing](https://cursor.com/pricing) - verified 2026-05-07
 
 | Plan | Price (Monthly) | Price (Annual) | Per User |
 |------|----------------|----------------|----------|
@@ -19,7 +19,7 @@ All pricing verified on **2025-05-07**.
 ---
 
 ## GitHub Copilot
-**Source:** [github.com/features/copilot](https://github.com/features/copilot) — verified 2025-05-07
+**Source:** [github.com/features/copilot](https://github.com/features/copilot) - verified 2026-05-07
 
 ### Individual Plans
 | Plan | Price | Per User |
@@ -37,21 +37,21 @@ All pricing verified on **2025-05-07**.
 ---
 
 ## Claude (claude.ai)
-**Source:** [claude.ai/pricing](https://claude.ai/pricing) — verified 2025-05-07
+**Source:** [claude.ai/pricing](https://claude.ai/pricing) - verified 2026-05-07
 
 | Plan | Price (Monthly) | Price (Annual) | Per User |
 |------|----------------|----------------|----------|
 | Free | $0 | $0 | No |
 | Pro | $20/mo | $17/mo | No |
-| Max | from $100/mo | — | No |
+| Max | from $100/mo | - | No |
 | Team Standard | $25/user/mo | $20/user/mo | Yes |
 | Team Premium | $125/user/mo | $100/user/mo | Yes |
-| Enterprise | $20/seat + usage at API rates | — | Yes |
+| Enterprise | $20/seat + usage at API rates | - | Yes |
 
 ---
 
 ## Anthropic API
-**Source:** [anthropic.com/pricing](https://anthropic.com/pricing) — verified 2025-05-07
+**Source:** [anthropic.com/pricing](https://anthropic.com/pricing) - verified 2026-05-07
 
 | Model | Input | Output |
 |-------|-------|--------|
@@ -62,8 +62,8 @@ All pricing verified on **2025-05-07**.
 ---
 
 ## ChatGPT (chatgpt.com)
-**Source:** [chatgpt.com](https://chatgpt.com) — verified 2025-05-07
-*Note: Prices originally shown in INR — converted to USD approximate equivalents.*
+**Source:** [chatgpt.com](https://chatgpt.com) - verified 2026-05-07
+*Note: Prices originally shown in INR - converted to USD approximate equivalents.*
 
 | Plan | Price | Per User |
 |------|-------|----------|
@@ -77,7 +77,7 @@ All pricing verified on **2025-05-07**.
 ---
 
 ## OpenAI API
-**Source:** [platform.openai.com/docs/pricing](https://platform.openai.com/docs/pricing) — verified 2025-05-07
+**Source:** [platform.openai.com/docs/pricing](https://platform.openai.com/docs/pricing) - verified 2026-05-07
 
 | Model | Input | Output |
 |-------|-------|--------|
@@ -89,7 +89,7 @@ All pricing verified on **2025-05-07**.
 ---
 
 ## Gemini API (Google AI)
-**Source:** [ai.google.dev/gemini-api/docs/pricing](https://ai.google.dev/gemini-api/docs/pricing) — verified 2025-05-07
+**Source:** [ai.google.dev/gemini-api/docs/pricing](https://ai.google.dev/gemini-api/docs/pricing) - verified 2026-05-07
 
 | Model | Input | Output | Free Tier |
 |-------|-------|--------|-----------|
@@ -105,7 +105,7 @@ All pricing verified on **2025-05-07**.
 ---
 
 ## Windsurf
-**Source:** [windsurf.com/pricing](https://windsurf.com/pricing) — verified 2025-05-07
+**Source:** [windsurf.com/pricing](https://windsurf.com/pricing) - verified 2025-05-07
 
 | Plan | Price | Per User |
 |------|-------|----------|
