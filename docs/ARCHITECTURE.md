@@ -62,3 +62,15 @@ If SpendLens suddenly had to process 10,000 audits per day, the current stack wo
 Resend free tier only sends to the account owner's email until a custom domain is verified. For this demo, email delivery is functional but scoped to verified addresses.
 
 Production fix: verify a custom domain in Resend dashboard (requires owning a domain). The email template, API route, and lead capture logic are all production-ready - only the domain verification step is pending.
+
+---
+
+## Security & Abuse Protection
+
+- **Honeypot field**: Lead capture form includes a hidden "website" field. If filled (by bots), the request is silently rejected with 200 OK so bots don't know they were blocked.
+  
+- **Rate limiting**: Same email address cannot submit more than once per hour. Checked against Supabase before inserting. Returns 429 if limit exceeded.
+
+- **Supabase RLS**: Audits table is public read/insert only. Leads table is insert-only from client - emails cannot be queried from the browser.
+
+- **No secrets in repo**: All API keys in .env.local, excluded via .gitignore. Environment variables set in Vercel dashboard for production.
