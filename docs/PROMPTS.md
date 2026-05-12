@@ -3,7 +3,7 @@
 ## AI Summary Prompt
 
 ### Model
-Groq API — llama-3.3-70b-versatile
+Groq API - llama-3.3-70b-versatile
 (OpenAI-compatible, free tier, same architecture as Anthropic integration)
 
 ### Prompt
