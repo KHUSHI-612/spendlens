@@ -144,24 +144,25 @@ export default function SpendForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full px-4 sm:px-8 md:px-16 lg:px-24 space-y-8 md:space-y-16">
+    <form onSubmit={handleSubmit} className="w-full px-4 sm:px-8 md:px-16 lg:px-24 space-y-8 md:space-y-16" aria-label="AI Tool Audit Form">
       {/* Team Information - Wide Header Card */}
       <div className="w-full bg-white/5 border border-white/10 p-6 md:p-10 lg:p-12 rounded-3xl md:rounded-[2.5rem] shadow-2xl">
         <h2 className="text-2xl md:text-3xl font-black text-white mb-8 md:mb-10 tracking-tight">Team Information</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
           <div>
-            <label htmlFor="company-name" className="block text-[10px] md:text-sm font-bold text-gray-300 mb-3 md:mb-4 uppercase tracking-[0.3em]">Company Name (Optional)</label>
+            <label htmlFor="company-name" className="block text-xs md:text-sm font-bold text-gray-300 mb-3 md:mb-4 uppercase tracking-[0.3em]">Company Name (Optional)</label>
             <input
               id="company-name"
               type="text"
               value={formData.companyName || ""}
               onChange={(e) => updateCompanyName(e.target.value)}
-              className="w-full h-14 md:h-16 bg-gray-950 border border-gray-700 rounded-xl md:rounded-2xl px-4 md:px-6 text-base md:text-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-700"
+              className="w-full h-14 md:h-16 bg-gray-950 border border-gray-700 rounded-xl md:rounded-2xl px-4 md:px-6 text-base md:text-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-500"
               placeholder="Acme Corp"
+              aria-required="false"
             />
           </div>
           <div>
-            <label htmlFor="team-size" className="block text-[10px] md:text-sm font-bold text-gray-300 mb-3 md:mb-4 uppercase tracking-[0.3em]">Total Team Size</label>
+            <label htmlFor="team-size" className="block text-xs md:text-sm font-bold text-gray-300 mb-3 md:mb-4 uppercase tracking-[0.3em]">Total Team Size</label>
             <input
               id="team-size"
               type="number"
@@ -169,6 +170,7 @@ export default function SpendForm() {
               value={formData.teamSize}
               onChange={(e) => updateTeamSize(parseInt(e.target.value) || 1)}
               className="w-full h-14 md:h-16 bg-gray-950 border border-gray-700 rounded-xl md:rounded-2xl px-4 md:px-6 text-base md:text-lg text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+              aria-required="true"
             />
           </div>
         </div>
@@ -182,6 +184,7 @@ export default function SpendForm() {
             type="button"
             onClick={addTool}
             className="w-full sm:w-auto text-sm md:text-lg bg-blue-600 hover:bg-blue-500 text-white px-6 md:px-10 py-3 md:py-4 rounded-xl md:rounded-2xl font-black transition-all shadow-[0_0_30px_rgba(37,99,235,0.2)] active:scale-95 uppercase tracking-wider"
+            aria-label="Add another tool to your stack"
           >
             + Add Tool
           </button>
@@ -189,30 +192,31 @@ export default function SpendForm() {
 
         {formData.tools.length === 0 ? (
           <div className="w-full bg-white/5 border border-white/10 border-dashed rounded-3xl md:rounded-[2.5rem] min-h-[200px] md:min-h-[300px] flex flex-col items-center justify-center p-8 md:p-16 text-center">
-            <p className="text-gray-400 text-lg md:text-2xl font-medium mb-8 md:mb-10 max-w-2xl">
+            <p className="text-gray-300 text-lg md:text-2xl font-medium mb-8 md:mb-10 max-w-2xl">
               No tools added yet. Add the tools you are currently paying for to begin your professional audit.
             </p>
             <button
               type="button"
               onClick={addTool}
               className="text-sm md:text-lg bg-white/10 hover:bg-white/20 text-white px-8 md:px-12 py-4 md:py-5 rounded-xl md:rounded-2xl transition-all font-black uppercase tracking-widest"
+              aria-label="Add your first tool to get started"
             >
               Add your first tool
             </button>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-4" role="list">
             {formData.tools.map((toolEntry, index) => {
               const selectedTool = tools.find((t) => t.id === toolEntry.toolId);
               const selectedPlan = getToolPlan(toolEntry.toolId, toolEntry.planId);
 
               return (
-                <div key={index} className="w-full bg-white/5 border border-white/10 p-6 md:p-10 rounded-2xl md:rounded-3xl relative shadow-xl group transition-all hover:bg-white/[0.08]">
+                <div key={index} role="listitem" className="w-full bg-white/5 border border-white/10 p-6 md:p-10 rounded-2xl md:rounded-3xl relative shadow-xl group transition-all hover:bg-white/[0.08]">
                   <button
                     type="button"
                     onClick={() => removeTool(index)}
-                    className="absolute -top-2 -right-2 bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/20 w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-lg sm:opacity-0 sm:group-hover:opacity-100"
-                    aria-label="Remove tool"
+                    className="absolute -top-2 -right-2 bg-red-600 hover:bg-red-500 text-white border border-red-500/20 w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-lg sm:opacity-0 sm:group-hover:opacity-100"
+                    aria-label={`Remove ${selectedTool?.name || 'tool'} from stack`}
                   >
                     ×
                   </button>
@@ -220,11 +224,13 @@ export default function SpendForm() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-end">
                     {/* Tool Selection */}
                     <div className="col-span-1">
-                      <label className="block text-[10px] font-bold text-gray-400 mb-2 md:mb-3 uppercase tracking-[0.2em]">Tool</label>
+                      <label htmlFor={`tool-${index}`} className="block text-[10px] font-bold text-gray-300 mb-2 md:mb-3 uppercase tracking-[0.2em]">Tool</label>
                       <select
+                        id={`tool-${index}`}
                         value={toolEntry.toolId}
                         onChange={(e) => updateTool(index, { toolId: e.target.value as ToolId })}
                         className="w-full h-12 bg-gray-950 border border-gray-700 rounded-xl px-4 text-sm md:text-base text-white focus:outline-none focus:border-blue-500 transition-all appearance-none cursor-pointer"
+                        aria-label="Select AI Tool"
                       >
                         {tools.map((t) => (
                           <option key={t.id} value={t.id}>{t.name}</option>
@@ -234,11 +240,13 @@ export default function SpendForm() {
 
                     {/* Plan Selection */}
                     <div className="col-span-1">
-                      <label className="block text-[10px] font-bold text-gray-400 mb-2 md:mb-3 uppercase tracking-[0.2em]">Plan</label>
+                      <label htmlFor={`plan-${index}`} className="block text-[10px] font-bold text-gray-300 mb-2 md:mb-3 uppercase tracking-[0.2em]">Plan</label>
                       <select
+                        id={`plan-${index}`}
                         value={toolEntry.planId}
                         onChange={(e) => updateTool(index, { planId: e.target.value })}
                         className="w-full h-12 bg-gray-950 border border-gray-700 rounded-xl px-4 text-sm md:text-base text-white focus:outline-none focus:border-blue-500 transition-all appearance-none cursor-pointer"
+                        aria-label="Select Plan"
                       >
                         {selectedTool?.plans.map((p) => (
                           <option key={p.id} value={p.id}>{p.name}</option>
@@ -248,11 +256,13 @@ export default function SpendForm() {
 
                     {/* Primary Use Case */}
                     <div className="col-span-1">
-                      <label className="block text-[10px] font-bold text-gray-400 mb-2 md:mb-3 uppercase tracking-[0.2em]">Use Case</label>
+                      <label htmlFor={`use-case-${index}`} className="block text-[10px] font-bold text-gray-300 mb-2 md:mb-3 uppercase tracking-[0.2em]">Use Case</label>
                       <select
+                        id={`use-case-${index}`}
                         value={toolEntry.primaryUseCase}
                         onChange={(e) => updateTool(index, { primaryUseCase: e.target.value as UseCase })}
                         className="w-full h-12 bg-gray-950 border border-gray-700 rounded-xl px-4 text-sm md:text-base text-white focus:outline-none focus:border-blue-500 transition-all appearance-none cursor-pointer"
+                        aria-label="Select Primary Use Case"
                       >
                         {Object.entries(USE_CASE_LABELS).map(([val, label]) => (
                           <option key={val} value={val}>{label}</option>
@@ -262,23 +272,26 @@ export default function SpendForm() {
 
                     {/* Seats */}
                     <div className="col-span-1">
-                      <label className="block text-[10px] font-bold text-gray-400 mb-2 md:mb-3 uppercase tracking-[0.2em]">Seats</label>
+                      <label htmlFor={`seats-${index}`} className="block text-[10px] font-bold text-gray-300 mb-2 md:mb-3 uppercase tracking-[0.2em]">Seats</label>
                       <input
+                        id={`seats-${index}`}
                         type="number"
                         min="1"
                         value={toolEntry.seats}
                         onChange={(e) => updateTool(index, { seats: parseInt(e.target.value) || 1 })}
                         disabled={!selectedPlan?.isPerUser}
                         className={`w-full h-12 bg-gray-950 border border-gray-700 rounded-xl px-4 text-sm md:text-base text-white focus:outline-none focus:border-blue-500 transition-all ${!selectedPlan?.isPerUser ? 'opacity-30 cursor-not-allowed' : ''}`}
+                        aria-label="Number of seats"
                       />
                     </div>
                     
                     {/* Spend */}
                     <div className="col-span-1">
-                      <label className="block text-[10px] font-bold text-gray-400 mb-2 md:mb-3 uppercase tracking-[0.2em]">Spend/mo</label>
+                      <label htmlFor={`spend-${index}`} className="block text-[10px] font-bold text-gray-300 mb-2 md:mb-3 uppercase tracking-[0.2em]">Spend/mo</label>
                       <div className="relative">
-                        <span className="absolute left-4 top-3 text-gray-600 text-sm">$</span>
+                        <span className="absolute left-4 top-3 text-gray-500 text-sm" aria-hidden="true">$</span>
                         <input
+                          id={`spend-${index}`}
                           type="number"
                           min="0"
                           step="1"
@@ -286,6 +299,7 @@ export default function SpendForm() {
                           onChange={(e) => updateTool(index, { monthlySpend: parseFloat(e.target.value) || 0 })}
                           disabled={!selectedPlan?.isCustom && !selectedPlan?.isApiDirect}
                           className={`w-full h-12 bg-gray-950 border border-gray-700 rounded-xl pl-8 pr-4 text-sm md:text-base text-white focus:outline-none focus:border-blue-500 transition-all ${!selectedPlan?.isCustom && !selectedPlan?.isApiDirect ? 'opacity-30 cursor-not-allowed' : ''}`}
+                          aria-label="Monthly spend amount"
                         />
                       </div>
                     </div>
@@ -302,6 +316,7 @@ export default function SpendForm() {
           type="submit"
           disabled={formData.tools.length === 0}
           className="bg-blue-600 hover:bg-blue-500 disabled:opacity-30 disabled:cursor-not-allowed text-white w-full sm:w-64 h-14 rounded-xl md:rounded-2xl font-black text-base transition-all shadow-[0_15px_40px_rgba(37,99,235,0.3)] active:scale-[0.98] uppercase tracking-[0.2em]"
+          aria-label="Run audit and calculate savings"
         >
           Run Audit
         </button>

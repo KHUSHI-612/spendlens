@@ -82,8 +82,10 @@ export default async function AuditPage({ params }: Props) {
   };
 
   return (
-    <div className="min-h-screen py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
-      <AuditResults result={auditResult} />
+    <div className="min-h-screen py-12 sm:py-20 px-4 md:px-8 lg:px-12 bg-black">
+      <div className="w-full">
+        <AuditResults result={auditResult} />
+      </div>
     </div>
   );
 }

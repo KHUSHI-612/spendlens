@@ -142,7 +142,7 @@ export interface LeadRow {
 /** Lead capture form input */
 export interface LeadInput {
   email: string;
-  companyName?: string;
+  company?: string;
   role?: string;
   auditId: string;
   savingsAmount?: number;

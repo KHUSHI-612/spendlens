@@ -1,5 +1,10 @@
 import React from "react";
-import SpendForm from "@/components/SpendForm";
+import dynamic from "next/dynamic";
+
+const SpendForm = dynamic(() => import("@/components/SpendForm"), {
+  ssr: false,
+  loading: () => <div className="w-full h-[600px] bg-white/5 rounded-3xl animate-pulse" />,
+});
 
 export default function Home() {
   return (
@@ -8,21 +13,21 @@ export default function Home() {
       <section className="relative min-h-[60vh] md:min-h-[70vh] flex flex-col items-center justify-center text-center px-4 py-12 md:py-16 bg-black overflow-hidden z-0">
         <div className="max-w-7xl mx-auto relative z-10 w-full">
           {/* Top Badge */}
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-md border border-electric-500/30 bg-electric-500/10 mb-6 animate-fade-in">
-            <svg className="w-4 h-4 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="inline-flex items-center space-x-3 px-4 py-1.5 rounded-lg border border-electric-500/30 bg-electric-500/10 mb-8 animate-fade-in shadow-[0_0_20px_rgba(59,130,246,0.1)]">
+            <svg className="w-5 h-5 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9h18" />
             </svg>
-            <span className="text-[10px] font-bold text-electric-400 uppercase tracking-[0.2em]">
+            <span className="text-xs md:text-sm font-black text-electric-400 uppercase tracking-[0.3em]">
               The Independent AI Tool Audit Platform
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[1.1] mb-4 animate-fade-in-up">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[1.1] mb-4">
             Cut through <span className="text-electric-500">AI hype.</span><br className="hidden sm:block" />
             Find what actually works.
           </h1>
           
-          <p className="text-lg sm:text-xl md:text-3xl text-gray-300 max-w-2xl mx-auto mb-8 animate-fade-in-up leading-relaxed font-bold tracking-tight px-4 sm:px-0">
+          <p className="text-lg sm:text-xl md:text-3xl text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed font-bold tracking-tight px-4 sm:px-0">
             Free audit of your entire AI stack.<br className="hidden sm:block" />
             No login. No fluff. Just the numbers.
           </p>
@@ -31,6 +36,7 @@ export default function Home() {
             <a
               href="#audit-form"
               className="w-full sm:w-auto px-10 py-4 bg-electric-500 hover:bg-electric-600 text-white text-lg font-bold rounded-2xl transition-all shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transform hover:-translate-y-1 flex items-center justify-center"
+              aria-label="Start your free AI stack audit"
             >
               Start Free Audit →
             </a>
@@ -39,14 +45,14 @@ export default function Home() {
       </section>
 
       {/* Logo Ticker Section */}
-      <div className="py-8 md:py-12 overflow-hidden relative border-y border-white/5 bg-black min-h-[140px] md:min-h-[180px]">
+      <div className="py-8 md:py-12 overflow-hidden relative border-y border-white/10 bg-black min-h-[140px] md:min-h-[180px]" role="region" aria-label="Audited AI Providers">
         <div className="max-w-7xl mx-auto px-4 mb-6 md:mb-10 text-center">
           <p className="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-[0.3em] animate-fade-in px-4">
             AUDITING TOOLS FROM LEADING AI PROVIDERS
           </p>
         </div>
         
-        <div className="relative flex overflow-hidden">
+        <div className="relative flex overflow-hidden" aria-hidden="true">
           <div className="flex whitespace-nowrap animate-ticker-scroll py-2 md:py-4 will-change-transform">
             {[
               { name: "ChatGPT", color: "text-emerald-400 border-emerald-400/30 bg-emerald-400/10" },
@@ -57,7 +63,7 @@ export default function Home() {
               { name: "Windsurf", color: "text-cyan-400 border-cyan-400/30 bg-cyan-400/10" },
               { name: "OpenAI API", color: "text-green-400 border-green-400/30 bg-emerald-400/10" },
               { name: "Anthropic API", color: "text-orange-400 border-orange-400/30 bg-orange-400/10" }
-            ].concat([...Array(3)].flatMap(() => [
+            ].concat([
               { name: "ChatGPT", color: "text-emerald-400 border-emerald-400/30 bg-emerald-400/10" },
               { name: "Claude", color: "text-amber-400 border-amber-400/30 bg-amber-400/10" },
               { name: "Gemini", color: "text-blue-400 border-blue-400/30 bg-blue-400/10" },
@@ -66,7 +72,7 @@ export default function Home() {
               { name: "Windsurf", color: "text-cyan-400 border-cyan-400/30 bg-cyan-400/10" },
               { name: "OpenAI API", color: "text-green-400 border-green-400/30 bg-emerald-400/10" },
               { name: "Anthropic API", color: "text-orange-400 border-orange-400/30 bg-orange-400/10" }
-            ])).map((tool, i) => (
+            ]).map((tool, i) => (
               <div key={i} className="mx-3 md:mx-6">
                 <div className={`rounded-full border px-4 md:px-8 py-2 md:py-3 ${tool.color} font-bold text-sm md:text-base cursor-default transition-transform hover:scale-105 duration-300`}>
                   {tool.name}
@@ -78,10 +84,10 @@ export default function Home() {
       </div>
 
       {/* Features Grid Section */}
-      <section id="features" className="py-16 md:py-20 bg-black">
+      <section id="features" className="py-16 md:py-20 bg-black" aria-labelledby="features-heading">
         <div className="w-full px-4 sm:px-8 md:px-12 lg:px-16">
           <div className="text-center mb-16 md:mb-24">
-            <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight mb-6 md:mb-8">
+            <h2 id="features-heading" className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight mb-6 md:mb-8">
               Every dollar, zero waste.
             </h2>
             <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
@@ -95,7 +101,7 @@ export default function Home() {
                 title: "Ghost Seats",
                 description: "Identify licenses that are active but haven't been touched in 30 days. Reclaim thousands in unused subscriptions.",
                 icon: (
-                  <svg className="w-6 h-6 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg aria-hidden="true" className="w-6 h-6 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 )
@@ -104,7 +110,7 @@ export default function Home() {
                 title: "API Over-provisioning",
                 description: "Find high-cost API keys with zero usage limits. Our audit catches potential runaway costs before they hit your bill.",
                 icon: (
-                  <svg className="w-6 h-6 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg aria-hidden="true" className="w-6 h-6 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                   </svg>
                 )
@@ -113,7 +119,7 @@ export default function Home() {
                 title: "Duplicate Tooling",
                 description: "Teams often buy the same tools in silos. We map your entire stack to eliminate overlapping feature sets.",
                 icon: (
-                  <svg className="w-6 h-6 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg aria-hidden="true" className="w-6 h-6 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
                 )
@@ -122,7 +128,7 @@ export default function Home() {
                 title: "Tier Misalignment",
                 description: "Are you on an Enterprise plan but only using Pro features? We find the right tier for your actual usage volume.",
                 icon: (
-                  <svg className="w-6 h-6 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg aria-hidden="true" className="w-6 h-6 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
                 )
@@ -131,7 +137,7 @@ export default function Home() {
                 title: "Real-Time Price Tracking",
                 description: "AI tool pricing changes constantly. SpendLens monitors vendor pricing updates so recommendations are always current.",
                 icon: (
-                  <svg className="w-6 h-6 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg aria-hidden="true" className="w-6 h-6 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 )
@@ -140,7 +146,7 @@ export default function Home() {
                 title: "Zero Vendor Bias",
                 description: "We don't take money from AI vendors. Every recommendation is based purely on your usage and actual pricing data.",
                 icon: (
-                  <svg className="w-6 h-6 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg aria-hidden="true" className="w-6 h-6 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 )
@@ -159,16 +165,16 @@ export default function Home() {
       </section>
 
       {/* Audit Form Section */}
-      <section id="audit-form" className="py-16 md:py-24 bg-black relative">
+      <section id="audit-form" className="py-16 md:py-24 bg-black relative" aria-labelledby="form-heading">
         {/* Divider Line */}
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         
         <div className="w-full relative z-10 px-4 sm:px-0">
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight mb-4">
+            <h2 id="form-heading" className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight mb-4">
               Audit Your Stack.
             </h2>
-            <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed px-4">
+            <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed px-4">
               Enter your tools below. Get your savings report in 60 seconds.
             </p>
           </div>

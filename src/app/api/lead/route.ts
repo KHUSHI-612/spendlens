@@ -11,7 +11,7 @@ export async function POST(request: Request) {
 
   try {
     const body: LeadInput = await request.json();
-    const { email, companyName, role, auditId, savingsAmount, website } = body;
+    const { email, company, role, auditId, savingsAmount, website } = body;
 
     // 1. Honeypot check (spam protection)
     if (website) {
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
         {
           audit_id: auditId,
           email,
-          company: companyName || null,
+          company: company || null,
           role: role || null,
           savings_amount: savingsAmount || null,
         }
