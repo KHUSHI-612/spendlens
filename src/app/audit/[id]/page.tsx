@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq('id', params.id)
     .single();
 
-  if (!data) return { title: 'Audit Not Found — SpendLens' };
+  if (!data) return { title: 'Audit Not Found - SpendLens' };
 
   const savings = Number(data.total_monthly_savings);
   const topRecs = data.recommendations
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .map((r: ToolRecommendation) => r.toolName)
     .join(' and ');
 
-  const title = `I could save $${savings}/month on AI tools — SpendLens`;
+  const title = `I could save $${savings}/month on AI tools - SpendLens`;
   const description = data.recommendations.length > 0 
     ? `My SpendLens audit found $${savings}/month in potential savings. Top optimizations for ${topRecs}.`
     : `I just audited my AI stack on SpendLens and found my subscriptions are perfectly optimized!`;

@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 
 // ============================================================
 // SpendLens Audit Engine
-// Pure logic — no AI, no external calls
+// Pure logic - no AI, no external calls
 // ============================================================
 
 /**
@@ -97,13 +97,13 @@ function evaluateTool(entry: UserToolEntry, teamSize: number): ToolRecommendatio
       toolName,
       currentSpend: entry.monthlySpend,
       recommendedAction: "keep",
-      reasoning: "Unable to evaluate — tool or plan not found in our database.",
+      reasoning: "Unable to evaluate - tool or plan not found in our database.",
       monthlySavings: 0,
       credexRelevant: false,
     };
   }
 
-  // API direct usage — recommend Credex credits
+  // API direct usage - recommend Credex credits
   if (plan.isApiDirect && entry.monthlySpend > 0) {
     return evaluateApiDirect(entry, tool.name);
   }
@@ -112,7 +112,7 @@ function evaluateTool(entry: UserToolEntry, teamSize: number): ToolRecommendatio
   const seatMismatch = evaluateSeatMismatch(entry, tool.name, teamSize);
   if (seatMismatch) return seatMismatch;
 
-  // Small team on Team/Business plan — recommend downgrade
+  // Small team on Team/Business plan - recommend downgrade
   const teamDowngrade = evaluateTeamDowngrade(entry, tool.name);
   if (teamDowngrade) return teamDowngrade;
 
@@ -120,7 +120,7 @@ function evaluateTool(entry: UserToolEntry, teamSize: number): ToolRecommendatio
   const freeDowngrade = evaluateFreeDowngrade(entry, tool.name);
   if (freeDowngrade) return freeDowngrade;
 
-  // No issues — tool is well-optimized
+  // No issues - tool is well-optimized
   return {
     toolId: entry.toolId,
     toolName: tool.name,
@@ -398,7 +398,7 @@ function evaluateVendorRedundancy(entries: UserToolEntry[]): ToolRecommendation[
 }
 
 // ============================================================
-// Retail API Pricing — Suggest Credex Credits
+// Retail API Pricing - Suggest Credex Credits
 // If user is paying retail token prices, Credex marketplace
 // offers ~15-30% savings on bulk credits.
 // ============================================================
@@ -466,7 +466,7 @@ export function generateFallbackSummary(result: AuditResult): string {
       summary += ` You are currently paying for both a subscription plan and direct API usage from the same vendor, which is redundant.`;
     }
   } else {
-    summary += ` Your spending looks well-optimized — no significant savings found.`;
+    summary += ` Your spending looks well-optimized - no significant savings found.`;
   }
 
   if (credexTools.length > 0) {

@@ -18,7 +18,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "SpendLens — AI Tool Spending Audit for Startups",
+  title: "SpendLens - AI Tool Spending Audit for Startups",
   description:
     "Free audit that analyzes your team's AI tool spending and finds savings.",
 };

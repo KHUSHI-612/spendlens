@@ -1,7 +1,7 @@
 import { Tool, ToolId } from "@/types";
 
 // ============================================================
-// AI Tool Database — Plans & Pricing
+// AI Tool Database - Plans & Pricing
 // All pricing verified on 2025-05-07 from official sources
 // See docs/PRICING_DATA.md for source URLs
 // ============================================================
