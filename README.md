@@ -1,4 +1,4 @@
-# SpendLens — AI Tool Spending Audit
+# SpendLens - AI Tool Spending Audit
 
 SpendLens is a free web app that audits AI tool spending for startup 
 engineering teams. It analyzes your stack (Cursor, Copilot, Claude, 
@@ -65,17 +65,17 @@ Or connect the GitHub repo to Vercel Dashboard for auto-deploys.
 
 ---
 
-## Decisions — 5 Trade-offs I Made
+## Decisions - 5 Trade-offs I Made
 
 **1. Pure logic audit engine over LLM-powered analysis**
 Chose hardcoded rules in `auditEngine.ts` with zero AI for the core 
 audit. Deterministic results are testable, reproducible, and free. An 
 LLM might give more nuanced advice but would add latency, cost per audit, 
 and make testing nearly impossible. The rules cover the 80% case. Groq 
-is used only for a 100-word summary enhancement — the audit works 
+is used only for a 100-word summary enhancement - the audit works 
 perfectly without it.
 
-**2. No authentication — email captured after value is shown**
+**2. No authentication - email captured after value is shown**
 No login wall. Full results shown before asking for email. Every login 
 wall kills conversion. The user needs to trust the tool before giving 
 their email. By showing $X in savings first, the email capture becomes 
@@ -85,7 +85,7 @@ Worth it for a lead-gen tool.
 
 **3. JSONB columns for audit data in Supabase**
 Stored the entire audit payload as JSONB rather than normalized tables. 
-An audit is a point-in-time snapshot — if tool pricing changes next 
+An audit is a point-in-time snapshot - if tool pricing changes next 
 week, existing audits should still show the original analysis. 
 Normalizing would add 4+ tables and complex joins for no practical 
 MVP benefit. Trade-off: can't do SQL queries like "how many users are 
@@ -100,13 +100,14 @@ that takes 60 seconds to complete.
 **5. Groq over Anthropic API for AI summary**
 Anthropic API requires paid credits. Groq provides free inference with 
 llama-3.3-70b-versatile which is OpenAI-compatible. The architecture 
-is identical — swapping back to Anthropic requires changing one 
+is identical - swapping back to Anthropic requires changing one 
 environment variable and one model name string. Documented in 
 docs/PROMPTS.md.
 
 ---
 
 ## Project Structure
+```text
 src/
 ├── app/
 │   ├── layout.tsx              # Root layout: nav, fonts, meta tags
@@ -127,7 +128,7 @@ src/
 │   ├── tools.ts                # Tool & plan pricing database
 │   └── supabase.ts             # Supabase client
 └── types/
-└── index.ts                # TypeScript interfaces
+    └── index.ts                # TypeScript interfaces
 tests/
 └── auditEngine.test.ts         # 8 unit tests for audit engine
 docs/
@@ -142,6 +143,7 @@ docs/
 ├── USER_INTERVIEWS.md          # User research notes
 ├── LANDING_COPY.md             # Landing page copy
 └── METRICS.md                  # North star metric and instrumentation
+```
 
 ---
 
