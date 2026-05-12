@@ -4,7 +4,7 @@ const nextConfig = {
     unoptimized: true
   },
   experimental: {
-    optimizeCss: true,
+    // optimizeCss: true, (Removed to fix critters dependency build error)
   },
 };
 
